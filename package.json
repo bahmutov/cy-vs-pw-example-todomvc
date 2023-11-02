@@ -1,0 +1,15 @@
+{
+  "name": "cy-vs-pw-example-todomvc",
+  "version": "1.0.0",
+  "description": "Cypress vs Playwright TodoMVC example app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.0.3"
+  }
+}

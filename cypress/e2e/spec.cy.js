@@ -8,5 +8,5 @@ it('has title', () => {
 
   // the page title should have text "cy-vs-pw-example-todomvc"
   // https://on.cypress.io/title
-  cy.title().should('equal', 'something')
+  cy.title().should('equal', 'cy-vs-pw-example-todomvc')
 })

@@ -7,7 +7,8 @@
     "start": "json-server --static . --watch data.json --middlewares ./node_modules/json-server-reset",
     "reset": "node reset-db.js",
     "test:pw": "playwright test",
-    "test:cy": "cypress run"
+    "test:cy": "cypress run",
+    "e2e": "start-test start 3000 test:cy"
   },
   "keywords": [],
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
@@ -17,9 +18,10 @@
     "json-server-reset": "1.6.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.39.0",
+    "@types/node": "^20.8.10",
     "cypress": "^13.4.0",
     "prettier": "^3.0.3",
-    "@playwright/test": "^1.39.0",
-    "@types/node": "^20.8.10"
+    "start-server-and-test": "^2.0.2"
   }
 }

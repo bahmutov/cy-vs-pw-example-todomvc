@@ -2,3 +2,4 @@ node_modules/
 cypress/.DS_Store
 cypress/screenshots/
 cypress/videos/
+playwright-report/

@@ -8,7 +8,7 @@ test('has title', async ({ page }) => {
   await expect(page).toHaveTitle('cy-vs-pw-example-todomvc')
 
   // confirm there are 3 todo items on the page
-  // use the CSS selector ".todo list li"
+  // use the CSS selector ".todo-list li"
   // https://playwright.dev/docs/locators
   // and the count assertion
   // https://playwright.dev/docs/api/class-locatorassertions

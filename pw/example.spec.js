@@ -9,11 +9,11 @@ const { test, expect } = require('@playwright/test')
 // https://playwright.dev/docs/api/class-test
 // https://playwright.dev/docs/api-testing
 test.beforeEach(async ({ request }) => {
-  request.post('/reset', { data: { todos: [] } })
+  request.post('http://localhost:3000/reset', { data: { todos: [] } })
 })
 
 test('has title', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('http://localhost:3000/')
 
   // confirm the page has finished loading todos
   // and the body element has CSS class "loaded"

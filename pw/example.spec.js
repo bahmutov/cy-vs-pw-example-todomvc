@@ -13,6 +13,6 @@ test('has title', async ({ page }) => {
   // and the count assertion
   // https://playwright.dev/docs/api/class-locatorassertions
   await expect(page.locator('.todo-list li')).toHaveCount(3, {
-    timeout: 10_000,
+    timeout: 1000,
   })
 })

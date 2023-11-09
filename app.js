@@ -1,15 +1,3 @@
-throw new Error('App crash')
-
-// Once the above error causes your test to fail
-// can you verify if the test runner catches errors
-// throws asynchronously or rejected promises?
-
-// setTimeout(() => {
-//   throw new Error('Async app crash')
-// }, 10)
-//
-// Promise.reject(new Error('rejected promise'))
-
 /* global Vue, Vuex, axios, track */
 /* eslint-disable no-console */
 /* eslint-disable-next-line */

@@ -8,7 +8,7 @@
     "reset": "node reset-db.js",
     "test:pw": "playwright test",
     "test:cy": "cypress run",
-    "e2e": "start-test start 3000 test:cy",
+    "e2e": "start-test start localhost:3000 test:cy",
     "open:pw": "playwright test --ui"
   },
   "keywords": [],

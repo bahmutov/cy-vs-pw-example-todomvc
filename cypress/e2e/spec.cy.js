@@ -13,18 +13,19 @@ beforeEach(() => {
 // https://on.cypress.io/get
 // https://on.cypress.io/type
 it('has title', () => {
+  const input = '[placeholder="What needs to be done?"]'
+  const todos = '.todo-list li label'
+
   // visit the application
   cy.visit('/')
   // wait for the body.loaded element to be visible
   cy.get('body.loaded').should('be.visible')
   // there should be zero todo items
-  cy.get('.todo-list li').should('have.length', 0)
+  cy.get(todos).should('not.exist')
   // find the input element using the placeholder text
   // and type "Write code" followed by "Enter" press
-  cy.get('[placeholder="What needs to be done?"]').type('Write code{enter}')
+  cy.get(input).type('Write code{enter}')
   // there should be one todo item on the page
   // the todo item label should have the entered text
-  cy.get('.todo-list li label')
-    .should('have.length', 1)
-    .and('have.text', 'Write code')
+  cy.get(todos).should('have.length', 1).and('have.text', 'Write code')
 })

@@ -11,7 +11,7 @@ beforeEach(() => {
 // https://on.cypress.io/get
 // https://on.cypress.io/type
 // https://glebbahmutov.com/cypress-examples/commands/assertions.html
-it('has title', () => {
+it('adding todos', () => {
   // visit the application
   // wait for the body.loaded element to be visible
   // there should be zero todo items

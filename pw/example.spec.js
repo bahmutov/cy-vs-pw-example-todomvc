@@ -1,20 +1,17 @@
 // @ts-check
 const { test, expect } = require('@playwright/test')
 
-// start each test with zero todos
 test.beforeEach(async ({ request }) => {
   request.post('/reset', { data: { todos: [] } })
 })
 
 test('adding todos', async ({ page }) => {
   // avoid duplicator code by reusing the same locator objects
-  const input = page.getByPlaceholder('What needs to be done?')
-  const todos = page.locator('.todo-list li label')
-
   await page.goto('/')
-  await page.locator('body.loaded').waitFor()
-  await expect(todos).toHaveCount(0)
-  await input.fill('Write code')
-  await input.press('Enter')
-  await expect(todos).toHaveText(['Write code'])
+  await expect(page.locator('body.loaded')).toBeVisible()
+  await expect(page.locator('.todo-list li')).toHaveCount(0)
+  await page.getByPlaceholder('What needs to be done?').fill('Write code')
+  await page.getByPlaceholder('What needs to be done?').press('Enter')
+  await expect(page.locator('.todo-list li')).toHaveCount(1)
+  await expect(page.locator('.todo-list li label')).toHaveText('Write code')
 })

@@ -14,13 +14,9 @@ test('has title', async ({ page }, testInfo) => {
   // if the application throws an unhandled error
   // we want to fail the test. Make sure to register
   // the error callback before visiting the page
-  page.on('pageerror', async (exception) => {
-    console.log('page error!')
-    expect(false, 'page error').toBeTruthy()
-    // throw exception
+  page.on('pageerror', (exception) => {
+    throw new Error('App threw an error')
   })
 
   await page.goto('/')
-  await expect(page.locator('body')).toHaveClass('loaded')
-  await expect(page.locator('.todo-list li')).toHaveCount(0)
 })

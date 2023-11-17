@@ -15,6 +15,7 @@ test('has title', async ({ page }, testInfo) => {
   // we want to fail the test. Make sure to register
   // the error callback before visiting the page
   page.on('pageerror', (exception) => {
+    console.error('app error:', exception.message)
     throw new Error('App threw an error')
   })
 

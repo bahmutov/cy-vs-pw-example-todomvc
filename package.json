@@ -9,9 +9,9 @@
     "test:pw": "playwright test",
     "test:cy": "cypress run",
     "cy:open": "cypress open",
-    "e2e": "start-test localhost:3000 test:cy",
+    "e2e": "start-test http://localhost:3000 test:cy",
     "open:pw": "playwright test --ui",
-    "open:cy": "start-test start localhost:3000 cy:open"
+    "open:cy": "start-test start http://localhost:3000 cy:open"
   },
   "keywords": [],
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
@@ -21,9 +21,9 @@
     "json-server-reset": "1.6.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.39.0",
+    "@playwright/test": "^1.40.0",
     "@types/node": "^20.8.10",
-    "cypress": "^13.5.0",
+    "cypress": "^13.6.0",
     "prettier": "^3.0.3",
     "start-server-and-test": "^2.0.2"
   }

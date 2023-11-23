@@ -26,10 +26,10 @@ describe('Complete todos', () => {
 
     cy.visit('/')
 
-    cy.log(`**shows _${items.length}_ items**`)
+    // shows the expected number of items
     cy.get(todos).should('have.length', items.length)
 
-    cy.log('**check each item**')
+    // check each item
     items.forEach((item, k) => {
       cy.get(todos).eq(k).contains('label', item.title)
       if (item.completed) {
@@ -39,8 +39,8 @@ describe('Complete todos', () => {
       }
     })
 
+    // shows the remaining count
     const n = items.filter((item) => !item.completed).length
-    cy.log(`remaining count **${n}**`)
     cy.contains(count, n)
   })
 })

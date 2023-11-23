@@ -5,7 +5,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3000',
     video: true,
     supportFile: false,
-    fixturesFolder: false,
+    fixturesFolder: './fixtures',
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },

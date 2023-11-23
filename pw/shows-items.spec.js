@@ -25,23 +25,25 @@ test.describe('App', () => {
 
     await page.goto('/')
 
-    // shows N items
-    await expect(todos).toHaveCount(items.length)
-    // go through the items and confirm each is rendered correctly
-    // - label text
-    // - completed or not
-    for (const [k, item] of items.entries()) {
-      const itemLocator = todos.nth(k)
-      await expect(itemLocator.locator('label')).toHaveText(item.title)
-      if (item.completed) {
-        await expect(itemLocator).toHaveClass(/completed/)
-      } else {
-        await expect(itemLocator).not.toHaveClass(/completed/)
-      }
-    }
+    await test.step(`shows ${items.length} items`, async () => {
+      await expect(todos).toHaveCount(items.length)
+    })
 
-    // confirm the remaining items count is correct
+    await test.step('check each item', async () => {
+      for (const [k, item] of items.entries()) {
+        const itemLocator = todos.nth(k)
+        await expect(itemLocator.locator('label')).toHaveText(item.title)
+        if (item.completed) {
+          await expect(itemLocator).toHaveClass(/completed/)
+        } else {
+          await expect(itemLocator).not.toHaveClass(/completed/)
+        }
+      }
+    })
+
     const n = items.filter((item) => !item.completed).length
-    await expect(count).toHaveText(String(n))
+    await test.step(`remaining count ${n}`, async () => {
+      await expect(count).toHaveText(String(n))
+    })
   })
 })

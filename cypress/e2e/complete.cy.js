@@ -1,35 +1,32 @@
 // @ts-check
 /// <reference types="cypress" />
 
+import items from '../../fixtures/three.json'
+
 describe('Complete todos', () => {
   beforeEach(() => {
-    cy.request('POST', '/reset', { todos: [] })
+    // immediately create 3 todos
+    // using the JSON file "fixtures/three.json"
+    cy.request('POST', '/reset', { todos: items })
   })
 
   it('completes a todo', () => {
     // common locators
-    const input = '[placeholder="What needs to be done?"]'
     const todos = '.todo-list li'
     const todoLabels = todos + ' label'
     const count = '[data-cy="remaining-count"]'
 
     cy.visit('/')
-    cy.get('body.loaded').should('be.visible')
-
-    // enter three todos
-    // "Write code", "Write tests", "Make tests pass"
-    cy.get(input)
-      .type('Write code{enter}')
-      .type('Write tests{enter}')
-      .type('Make tests pass{enter}')
 
     // confirm the item labels
+    const labels = items.map((t) => t.title)
+
     cy.get(todoLabels)
-      .should('have.length', 3)
+      .should('have.length', items.length)
       .then(($el) => Cypress._.map($el, 'innerText'))
-      .should('deep.equal', ['Write code', 'Write tests', 'Make tests pass'])
-    // confirm the "3" todos remaining is shown
-    cy.contains(count, 3)
+      .should('deep.equal', labels)
+    // confirm the number of todos remaining is shown
+    cy.contains(count, items.length)
 
     // complete the first item by clicking its toggle element
     cy.get(todos).first().find('.toggle').click()
@@ -42,8 +39,8 @@ describe('Complete todos', () => {
     cy.get(todos)
       .then(($el) => Cypress._.map($el, 'classList.value'))
       .should('deep.equal', ['todo completed', 'todo', 'todo'])
-    // confirm there are 2 remaining items
-    cy.contains(count, 2)
+    // confirm there are N - 1 remaining items
+    cy.contains(count, items.length - 1)
     // and that we can clear the completed items button appears
     cy.contains('button', 'Clear completed').should('be.visible')
   })

@@ -22,7 +22,6 @@ describe('Complete todos', () => {
   it('completes a todo', () => {
     // common locators
     const todos = '.todo-list li'
-    const todoLabels = todos + ' label'
     const count = '[data-cy="remaining-count"]'
 
     cy.visit('/')

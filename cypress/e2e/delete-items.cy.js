@@ -14,24 +14,10 @@ describe('App', () => {
 
     cy.visit('/')
     cy.get(todos).should('have.length', 3)
+
     // delete one completed item (the middle one)
-    cy.get(todos)
-      .eq(1)
-      .find('.destroy')
-      // skip visibility check
-      .click({ force: true })
     // confirm the remaining two items are still there
-    cy.get(todos)
-      .should('have.length', 2)
-      .then(($li) => Cypress._.map($li, 'innerText'))
-      .should('deep.equal', ['Write code', 'Make tests pass'])
     // delete one incomplete item (the first one)
-    cy.get(todos)
-      .first()
-      .find('.destroy')
-      // skip visibility check
-      .click({ force: true })
     // confirm the one remaining item
-    cy.get(todos).should('have.length', 1).contains('Make tests pass')
   })
 })

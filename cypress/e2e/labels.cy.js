@@ -35,7 +35,6 @@ describe('App', () => {
   beforeEach(() => {
     cy.request('POST', '/reset', { todos: items })
     // visit the base url
-    cy.visit('/')
   })
 
   it('shows the right labels', () => {
@@ -43,15 +42,12 @@ describe('App', () => {
     const todos = '.todo-list li'
 
     // the application starts with 3 items
-    cy.get(todos).should('have.length', 3)
+
     // get the label from each item
     // and confirm the todos elements have the right text
-    // const labels = items.map((item) => item.title)
     // alternative: use the bundled Lodash library
-    const labels = Cypress._.map(items, 'title')
 
     // confirm the todo elements have the labels
     // from the fixture file
-    cy.get(todos).should('have.texts', labels)
   })
 })

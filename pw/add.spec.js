@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test')
 
 // start each test with zero todos
 test.beforeEach(async ({ request }) => {
-  request.post('/reset', { data: { todos: [] } })
+  await request.post('/reset', { data: { todos: [] } })
 })
 
 test('adding todos', async ({ page }) => {

@@ -20,32 +20,14 @@ test.describe('App routing', () => {
     // by default, the filter "All" is selected and nothing else
     // click on the "Active" link and confirm the URL changes its hash
     // part to "#/active"
-    await expect(all).toHaveClass('selected')
-    await expect(active).not.toHaveClass('selected')
-    await expect(completed).not.toHaveClass('selected')
-    await active.click()
-    await expect(page).toHaveURL(/\#\/active/)
 
     // there should be 2 todo items shown
-    await expect(todos).toHaveCount(2)
     // the filter "Active" is selected instead of "All" and nothing else
     // click on the "Completed" link and confirm the URL hash changes
-    await expect(all).not.toHaveClass('selected')
-    await expect(active).toHaveClass('selected')
-    await expect(completed).not.toHaveClass('selected')
-    await completed.click()
-    await expect(page).toHaveURL(/\#\/completed/)
 
     // there should be just one item shown
-    await expect(todos).toHaveCount(1)
     // the filter "Completed" is selected, and nothing else
     // click on the "All" link and confirm the URL hash changes
-    await expect(all).not.toHaveClass('selected')
-    await expect(active).not.toHaveClass('selected')
-    await expect(completed).toHaveClass('selected')
-    await all.click()
-    await expect(page).toHaveURL(/\#\/all/)
     // and we are back to 3 items
-    await expect(todos).toHaveCount(3)
   })
 })

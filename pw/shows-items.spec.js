@@ -7,7 +7,7 @@ test.describe('App', () => {
     // confirm there are several items
     // and some are completed and some are not
 
-    request.post('/reset', { data: { todos: items } })
+    await request.post('/reset', { data: { todos: items } })
   })
 
   test('shows items', async ({ page }) => {

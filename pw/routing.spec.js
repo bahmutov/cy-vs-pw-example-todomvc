@@ -4,7 +4,7 @@ const items = require('../fixtures/three.json')
 
 test.describe('App routing', () => {
   test.beforeEach(async ({ request }) => {
-    request.post('/reset', { data: { todos: items } })
+    await request.post('/reset', { data: { todos: items } })
   })
 
   test('shows all, completed, or incomplete todos', async ({ page }) => {

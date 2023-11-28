@@ -15,7 +15,7 @@ test.describe('App', () => {
       items.some((item) => !item.completed),
       'has incomplete items',
     ).toBeTruthy()
-    request.post('/reset', { data: { todos: items } })
+    await request.post('/reset', { data: { todos: items } })
   })
 
   test('shows items', async ({ page }) => {

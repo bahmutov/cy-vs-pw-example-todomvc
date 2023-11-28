@@ -2,7 +2,7 @@
 const { test, expect } = require('@playwright/test')
 
 test.beforeEach(async ({ request }) => {
-  request.post('/reset', { data: { todos: [] } })
+  await request.post('/reset', { data: { todos: [] } })
 })
 
 test('adding todos', async ({ page }) => {

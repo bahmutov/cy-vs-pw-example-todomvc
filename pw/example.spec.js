@@ -9,7 +9,7 @@ const { test, expect } = require('@playwright/test')
 // https://playwright.dev/docs/api/class-test
 // https://playwright.dev/docs/api-testing
 test.beforeEach(async ({ request }) => {
-  request.post('http://localhost:3000/reset', { data: { todos: [] } })
+  await request.post('http://localhost:3000/reset', { data: { todos: [] } })
 })
 
 test('has title', async ({ page }) => {

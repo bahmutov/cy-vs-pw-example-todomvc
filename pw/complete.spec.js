@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test')
 
 test.describe('Complete todos', () => {
   test.beforeEach(async ({ request }) => {
-    request.post('/reset', { data: { todos: [] } })
+    await request.post('/reset', { data: { todos: [] } })
   })
 
   test('completes a todo', async ({ page }) => {

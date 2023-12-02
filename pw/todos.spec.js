@@ -8,15 +8,12 @@ test.describe('App', () => {
     // visit the base url
   })
 
-  test('shows the right labels', async ({ page }) => {
+  test('shows more than 2 items at the start', async ({ page }) => {
     // common locators
     const todos = page.locator('.todo-list li')
-    // the application starts with 3 items
 
-    // get the label from each item
-    // and confirm the todos elements have the right text
-
-    // confirm the todo elements have the labels
-    // from the fixture file
+    // the application starts several items
+    // assume that we don't know the exact number
+    // but we expect more than 2 items
   })
 })

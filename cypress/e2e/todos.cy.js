@@ -17,14 +17,11 @@ describe('App', () => {
     // the application starts several items
     // assume that we don't know the exact number
     // but we expect more than 2 items
-    cy.get(todos).should('have.length.above', 2)
-    cy.get(todos).should('have.length.greaterThan', 2)
-    // gte = greater than or equal
-    cy.get(todos).should('have.length.gte', 3)
-    cy.get(todos).should(
-      'satisfy',
-      ($el) => $el.length > 2,
-      'more than 2 elements',
-    )
+    // Use cy...should(callback) to confirm the count > 2
+    // https://on.cypress.io/should
+    // https://glebbahmutov.com/cypress-examples/commands/assertions.html
+    cy.get(todos).should(($el) => {
+      expect($el.length, 'more than 2 elements').to.be.greaterThan(2)
+    })
   })
 })

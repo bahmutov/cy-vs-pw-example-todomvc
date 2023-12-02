@@ -20,8 +20,5 @@ describe('App', () => {
     // Use cy...should(callback) to confirm the count > 2
     // https://on.cypress.io/should
     // https://glebbahmutov.com/cypress-examples/commands/assertions.html
-    cy.get(todos).should(($el) => {
-      expect($el.length, 'more than 2 elements').to.be.greaterThan(2)
-    })
   })
 })

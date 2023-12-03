@@ -19,8 +19,6 @@ describe('App', () => {
     // - get the property `length` from that jQuery object (2)
     // - confirm the number is greater than 2 (3)
     // - if the assertion (3) fails, go back to (1)
-    cy.get(todos).should(($el) => {
-      expect($el.length, 'more than 2 elements').to.be.greaterThan(2)
-    })
+    cy.get(todos).its('length').should('be.greaterThan', 2)
   })
 })

@@ -14,12 +14,11 @@ describe('App', () => {
     // common locators
     const todos = '.todo-list li'
 
-    // the application starts several items
-    // assume that we don't know the exact number
-    // but we expect more than 2 items
-    // Use cy...should(callback) to confirm the count > 2
-    // https://on.cypress.io/should
-    // https://glebbahmutov.com/cypress-examples/commands/assertions.html
+    // rewrite the following assertion using a chain of commands
+    // - get the elements, which in Cypress yields a jQuery object (1)
+    // - get the property `length` from that jQuery object (2)
+    // - confirm the number is greater than 2 (3)
+    // - if the assertion (3) fails, go back to (1)
     cy.get(todos).should(($el) => {
       expect($el.length, 'more than 2 elements').to.be.greaterThan(2)
     })

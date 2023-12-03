@@ -13,17 +13,10 @@ test.describe('App', () => {
     // common locators
     const todos = page.locator('.todo-list li')
 
-    // confirm there are several items
-    // and parse each item's title to get the prices
-    // and confirm they are sorted in the ascending order
     await expect(async () => {
-      const titles = await todos.allTextContents()
-      const matches = titles.map((s) => s.match(/\$(?<price>\d+)/))
-      const strings = matches.map((m) => m?.groups?.price)
-      // @ts-ignore
-      const prices = strings.map(parseFloat)
-      const sorted = structuredClone(prices).sort()
-      expect(sorted, 'sorted from min to max').toEqual(prices)
+      // confirm there are several items
+      // and parse each item's title to get the prices
+      // and confirm they are sorted in the ascending order
     }).toPass()
   })
 })

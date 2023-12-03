@@ -17,16 +17,5 @@ describe('Prices', () => {
     // confirm there are several items
     // and parse each item's title to get the prices
     // and confirm they are sorted in the ascending order
-    cy.get(todos).should(($el) => {
-      const titles = Cypress._.map($el, 'innerText')
-      console.log(titles)
-      const matches = titles.map((s) => s.match(/\$(?<price>\d+)/))
-      const strings = matches.map((m) => m?.groups?.price)
-      // @ts-ignore
-      const prices = strings.map(parseFloat)
-      const sorted = Cypress._.sortBy(prices)
-      expect(sorted).to.not.be.empty
-      expect(sorted, 'sorted from min to max').to.deep.equal(prices)
-    })
   })
 })

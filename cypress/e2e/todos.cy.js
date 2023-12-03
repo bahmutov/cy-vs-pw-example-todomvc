@@ -1,6 +1,9 @@
 // @ts-check
 /// <reference types="cypress" />
+/// <reference types="cypress-map" />
 
+// https://github.com/bahmutov/cypress-map
+import 'cypress-map'
 import items from '../../fixtures/products.json'
 
 describe('Prices', () => {
@@ -17,11 +20,11 @@ describe('Prices', () => {
     // rewrite the following cy.then commands
     // using the cypress-map plugin commands
     cy.get(todos)
-      .then(($el) => Cypress._.map($el, 'innerText'))
-      .then((titles) => titles.map((s) => s.match(/\$(?<price>\d+)/)))
-      .then((matches) => matches.map((m) => m?.groups?.price))
-      // @ts-ignore
-      .then((strings) => strings.map(parseFloat))
+      .map('innerText')
+      .print()
+      .mapInvoke('match', /\$(?<price>\d+)/)
+      .map('groups.price')
+      .map(parseFloat)
       .should((prices) => {
         const sorted = Cypress._.sortBy(prices)
         expect(sorted).to.not.be.empty

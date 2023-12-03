@@ -1,16 +1,16 @@
 [
   {
-    "title": "Write code",
+    "title": "Buy apples $1",
     "completed": false,
     "id": "1"
   },
   {
-    "title": "Write tests",
+    "title": "Rent movie $4",
     "completed": true,
     "id": "2"
   },
   {
-    "title": "Make tests pass",
+    "title": "See a concert $59",
     "completed": false,
     "id": "3"
   }

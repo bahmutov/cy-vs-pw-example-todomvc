@@ -1,24 +1,31 @@
 // @ts-check
 /// <reference types="cypress" />
 
-import items from '../../fixtures/three.json'
+import items from '../../fixtures/products.json'
 
-describe('App', () => {
+describe('Prices', () => {
   beforeEach(() => {
     cy.request('POST', '/reset', { todos: items })
     // visit the base url
     cy.visit('/')
   })
 
-  it('shows more than 2 items at the start', () => {
+  it('shows items sorted by price', () => {
     // common locators
     const todos = '.todo-list li'
 
-    // rewrite the following assertion using a chain of commands
-    // - get the elements, which in Cypress yields a jQuery object (1)
-    // - get the property `length` from that jQuery object (2)
-    // - confirm the number is greater than 2 (3)
-    // - if the assertion (3) fails, go back to (1)
-    cy.get(todos).its('length').should('be.greaterThan', 2)
+    // confirm there are several items
+    // and parse each item's title to get the prices
+    // and confirm they are sorted in the ascending order
+    cy.get(todos)
+      .then(($el) => Cypress._.map($el, 'innerText'))
+      .then((titles) => titles.map((s) => s.match(/\$(?<price>\d+)/)))
+      .then((matches) => matches.map((m) => m?.groups?.price))
+      // @ts-ignore
+      .then((strings) => strings.map(parseFloat))
+      .should((prices) => {
+        const sorted = Cypress._.sortBy(prices)
+        expect(sorted, 'sorted from min to max').to.deep.equal(prices)
+      })
   })
 })

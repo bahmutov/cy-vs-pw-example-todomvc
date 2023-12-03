@@ -1,6 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test')
-const items = require('../fixtures/three.json')
+const items = require('../fixtures/products.json')
 
 test.describe('App', () => {
   test.beforeEach(async ({ request, page }) => {
@@ -9,16 +9,21 @@ test.describe('App', () => {
     await page.goto('/')
   })
 
-  test('shows more than 2 items at the start', async ({ page }) => {
+  test('shows items sorted by price', async ({ page }) => {
     // common locators
     const todos = page.locator('.todo-list li')
 
-    // the application starts several items
-    // assume that we don't know the exact number
-    // but we expect more than 2 items
+    // confirm there are several items
+    // and parse each item's title to get the prices
+    // and confirm they are sorted in the ascending order
     await expect(async () => {
-      const count = await todos.count()
-      expect(count).toBeGreaterThan(2)
+      const titles = await todos.allTextContents()
+      const matches = titles.map((s) => s.match(/\$(?<price>\d+)/))
+      const strings = matches.map((m) => m?.groups?.price)
+      // @ts-ignore
+      const prices = strings.map(parseFloat)
+      const sorted = structuredClone(prices).sort()
+      expect(sorted, 'sorted from min to max').toEqual(prices)
     }).toPass()
   })
 })

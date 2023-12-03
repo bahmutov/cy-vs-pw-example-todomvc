@@ -26,16 +26,16 @@ describe('Prices', () => {
     // - use regexp to get the price string from each item text
     // - convert each string into a number
     // - confirm the numbers are sorted
-    cy.get(todos).should(($el) => {
-      const titles = Cypress._.map($el, 'innerText')
-      console.log(titles)
-      const matches = titles.map((s) => s.match(/\$(?<price>\d+)/))
-      const strings = matches.map((m) => m?.groups?.price)
+    cy.get(todos)
+      .then(($el) => Cypress._.map($el, 'innerText'))
+      .then((titles) => titles.map((s) => s.match(/\$(?<price>\d+)/)))
+      .then((matches) => matches.map((m) => m?.groups?.price))
       // @ts-ignore
-      const prices = strings.map(parseFloat)
-      const sorted = Cypress._.sortBy(prices)
-      expect(sorted).to.not.be.empty
-      expect(sorted, 'sorted from min to max').to.deep.equal(prices)
-    })
+      .then((strings) => strings.map(parseFloat))
+      .should((prices) => {
+        const sorted = Cypress._.sortBy(prices)
+        expect(sorted).to.not.be.empty
+        expect(sorted, 'sorted from min to max').to.deep.equal(prices)
+      })
   })
 })

@@ -86,7 +86,19 @@ function appStart() {
             .then((r) => r.data)
             .then((todos) => {
               setTimeout(() => {
-                commit('SET_TODOS', todos)
+                todos.forEach((_, k) => {
+                  setTimeout(
+                    () => {
+                      commit('SET_TODOS', todos.slice(0, k + 1))
+                    },
+                    (k + 1) * 1000,
+                  )
+                })
+
+                // set the loaded state after showing all todos
+                setTimeout(() => {
+                  commit('SET_LOADING', false)
+                }, todos.length * 1000)
               }, state.renderDelay)
             })
             .catch((e) => {
@@ -94,11 +106,7 @@ function appStart() {
               console.error(e.message)
               console.error(e.response.data)
             })
-            .finally(() => {
-              setTimeout(() => {
-                commit('SET_LOADING', false)
-              }, state.renderDelay)
-            })
+            .finally(() => {})
         }, state.delay)
       },
 

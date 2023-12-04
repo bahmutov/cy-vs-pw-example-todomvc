@@ -1,9 +1,6 @@
 // @ts-check
 /// <reference types="cypress" />
-/// <reference types="cypress-map" />
 
-// https://github.com/bahmutov/cypress-map
-import 'cypress-map'
 import items from '../../fixtures/products.json'
 
 describe('Prices', () => {

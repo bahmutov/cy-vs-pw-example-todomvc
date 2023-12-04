@@ -5,25 +5,19 @@ const items = require('../fixtures/products.json')
 test.describe('App', () => {
   test.beforeEach(async ({ request, page }) => {
     await request.post('/reset', { data: { todos: items } })
-    // visit the base url
     await page.goto('/')
   })
 
-  test('shows items sorted by price', async ({ page }) => {
-    // common locators
+  test('shows items sorted by price - E', async ({ page }) => {
     const todos = page.locator('.todo-list li')
 
-    // confirm there are several items
-    // and parse each item's title to get the prices
-    // and confirm they are sorted in the ascending order
+    const titles = await todos.allTextContents()
     await expect(async () => {
-      const titles = await todos.allTextContents()
       const matches = titles.map((s) => s.match(/\$(?<price>\d+)/))
       const strings = matches.map((m) => m?.groups?.price)
       // @ts-ignore
       const prices = strings.map(parseFloat)
-      const sorted = structuredClone(prices).sort()
-      expect(sorted, 'sorted from min to max').toEqual(prices)
-    }).toPass()
+      expect(prices).toEqual([1, 4, 59])
+    }).toPass({ timeout: 5000 })
   })
 })

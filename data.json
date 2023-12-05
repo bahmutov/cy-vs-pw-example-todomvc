@@ -1,9 +1,19 @@
 {
   "todos": [
     {
-      "title": "one",
+      "title": "Buy apples $1",
       "completed": false,
-      "id": "8616255424"
+      "id": "1"
+    },
+    {
+      "title": "Rent movie $4",
+      "completed": true,
+      "id": "2"
+    },
+    {
+      "title": "See a concert $59",
+      "completed": false,
+      "id": "3"
     }
   ]
 }

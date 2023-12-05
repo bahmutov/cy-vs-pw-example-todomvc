@@ -1,23 +1,26 @@
 // @ts-check
 /// <reference types="cypress" />
 
-describe('App', () => {
+// https://github.com/bahmutov/cypress-map
+import 'cypress-map'
+import items from '../../fixtures/products.json'
+
+describe('Prices', () => {
   beforeEach(() => {
-    // stub the "GET /todos" network call the application makes
-    // and return the data from the fixture file "products.json"
-    // give this network stub an alias "load"
-    // https://on.cypress.io/intercept
-    // https://on.cypress.io/as
-    cy.intercept('/todos', { fixture: 'products.json' }).as('load')
-    cy.visit('/')
+    cy.request('POST', '/reset', { todos: items })
+    // the application code will run after 6 second delay
+    cy.visit('/?appStartDelay=6000')
   })
 
-  it('shows 3 items', () => {
+  it('shows items sorted by price - A', () => {
     const todos = '.todo-list li'
-    // wait for the intercepted network call "load"
-    cy.wait('@load')
-    // confirm the the number of shown todos is 3
-    // and that todos show up within 100ms of the load network call
-    cy.get(todos, { timeout: 100 }).should('have.length', 3)
+
+    cy.get(todos, { timeout: 7_000 })
+      .map('innerText')
+      .print()
+      .mapInvoke('match', /\$(?<price>\d+)/)
+      .map('groups.price')
+      .map(parseFloat)
+      .should('deep.equal', [1, 4, 59])
   })
 })

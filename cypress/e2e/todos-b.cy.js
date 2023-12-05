@@ -11,7 +11,7 @@ describe('Prices', () => {
 
   it('shows items sorted by price - B', () => {
     const todos = '.todo-list li'
-
+    cy.get('.loaded')
     cy.get(todos)
       .then(($el) => Cypress._.map($el, 'innerText'))
       .then((titles) => titles.map((s) => s.match(/\$(?<price>\d+)/)))

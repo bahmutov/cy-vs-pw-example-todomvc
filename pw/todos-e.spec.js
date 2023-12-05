@@ -10,7 +10,7 @@ test.describe('App', () => {
 
   test('shows items sorted by price - E', async ({ page }) => {
     const todos = page.locator('.todo-list li')
-
+    await page.locator('.loaded').waitFor()
     const titles = await todos.allTextContents()
     await expect(async () => {
       const matches = titles.map((s) => s.match(/\$(?<price>\d+)/))

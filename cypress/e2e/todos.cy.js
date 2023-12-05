@@ -6,6 +6,8 @@
 import 'cypress-map'
 import items from '../../fixtures/products.json'
 
+chai.config.truncateThreshold = 500
+
 describe('App', () => {
   beforeEach(() => {
     cy.request('POST', '/reset', { todos: items })

@@ -4,30 +4,24 @@
 
 // https://github.com/bahmutov/cypress-map
 import 'cypress-map'
-import items from '../../fixtures/products.json'
-
-chai.config.truncateThreshold = 500
 
 describe('App', () => {
   beforeEach(() => {
-    cy.request('POST', '/reset', { todos: items })
+    // stub the "GET /todos" network call the application makes
+    // and return the data from the fixture file "products.json"
+    // give this network stub an alias "load"
+    // https://on.cypress.io/intercept
+    // https://on.cypress.io/as
+    cy.intercept('/todos', { fixture: 'products.json' }).as('load')
     cy.visit('/')
   })
 
-  it('shows the items with css class', () => {
+  it('shows 3 items', () => {
     const todos = '.todo-list li'
-
-    // from the list of items get the list of titles
-    // and the list of CSS classes each item element should have
-    // completed? "todo" + "completed"
-    // incomplete? just "todo"
-    const titles = Cypress._.map(items, 'title')
-    const cssClasses = items.map((item) =>
-      item.completed ? 'todo completed' : 'todo',
-    )
-    // confirm the todo items have the titles
-    // and the class names
-    cy.get(todos).map('innerText').should('deep.equal', titles)
-    cy.get(todos).map('className').should('deep.equal', cssClasses)
+    // wait for the intercepted network call "load"
+    cy.wait('@load')
+    // confirm the the number of shown todos is 3
+    // and that todos show up within 100ms of the load network call
+    cy.get(todos, { timeout: 100 }).should('have.length', 3)
   })
 })

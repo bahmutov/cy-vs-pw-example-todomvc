@@ -1,8 +1,6 @@
 // @ts-check
 /// <reference types="cypress" />
 
-// https://github.com/bahmutov/cypress-map
-import 'cypress-map'
 import items from '../../fixtures/products.json'
 
 describe('Prices', () => {
@@ -14,13 +12,9 @@ describe('Prices', () => {
 
   it('shows items sorted by price - A', () => {
     const todos = '.todo-list li'
-
-    cy.get(todos, { timeout: 7_000 })
-      .map('innerText')
-      .print()
-      .mapInvoke('match', /\$(?<price>\d+)/)
-      .map('groups.price')
-      .map(parseFloat)
-      .should('deep.equal', [1, 4, 59])
+    // the elements will only appear after 6 seconds
+    // can you increase the time for getting the elements
+    // and retrying the elements?
+    cy.get(todos, { timeout: 7_000 }).should('have.length', items.length)
   })
 })

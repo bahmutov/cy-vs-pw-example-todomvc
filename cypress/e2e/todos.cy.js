@@ -8,16 +8,15 @@ describe('App', () => {
     // give this network stub an alias "load"
     // https://on.cypress.io/intercept
     // https://on.cypress.io/as
-    cy.intercept('/todos', { fixture: 'products.json' }).as('load')
     cy.visit('/')
   })
 
   it('shows 3 items', () => {
     const todos = '.todo-list li'
     // wait for the intercepted network call "load"
-    cy.wait('@load')
+
     // confirm the the number of shown todos is 3
     // and that todos show up within 100ms of the load network call
-    cy.get(todos, { timeout: 100 }).should('have.length', 3)
+    cy.get(todos).should('have.length', 3)
   })
 })

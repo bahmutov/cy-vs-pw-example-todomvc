@@ -15,6 +15,6 @@ describe('Prices', () => {
     // the elements will only appear after 6 seconds
     // can you increase the time for getting the elements
     // and retrying the elements?
-    cy.get(todos, { timeout: 7_000 }).should('have.length', items.length)
+    cy.get(todos).should('have.length', items.length)
   })
 })

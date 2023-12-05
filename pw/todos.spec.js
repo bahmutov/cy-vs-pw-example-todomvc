@@ -14,6 +14,6 @@ test.describe('App', () => {
     // the elements will only appear after 6 seconds
     // can you increase the time for getting the elements
     // and retrying the elements?
-    await expect(todos).toHaveCount(3)
+    await expect(todos).toHaveCount(3, { timeout: 7_000 })
   })
 })

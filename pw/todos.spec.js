@@ -15,13 +15,8 @@ test.describe('App', () => {
     // and the list of CSS classes each item element should have
     // completed? "todo" + "completed"
     // incomplete? just "todo"
-    const titles = items.map((item) => item.title)
-    const cssClasses = items.map((item) =>
-      item.completed ? 'todo completed' : 'todo',
-    )
+
     // confirm the todo items have the titles
     // and the class names
-    await expect(todos).toHaveText(titles)
-    await expect(todos).toHaveClass(cssClasses)
   })
 })

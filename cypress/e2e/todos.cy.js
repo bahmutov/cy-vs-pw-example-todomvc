@@ -1,9 +1,5 @@
 // @ts-check
 /// <reference types="cypress" />
-/// <reference types="cypress-map" />
-
-// https://github.com/bahmutov/cypress-map
-import 'cypress-map'
 
 describe('App', () => {
   beforeEach(() => {

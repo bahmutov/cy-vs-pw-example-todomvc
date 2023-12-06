@@ -23,7 +23,7 @@
   "devDependencies": {
     "@playwright/test": "^1.40.0",
     "@types/node": "^20.8.10",
-    "cypress": "^13.6.0",
+    "cypress": "^13.6.1",
     "cypress-map": "^1.21.2",
     "cypress-real-events": "^1.11.0",
     "prettier": "^3.0.3",

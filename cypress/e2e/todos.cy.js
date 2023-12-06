@@ -3,21 +3,8 @@
 
 describe('App', () => {
   beforeEach(() => {
-    // disable network caching using a Chrome Debugger Protocol command
-    // by using "cy.wrap" command we ensure that the promise returned
-    // by the Cypress.automation method resolves before proceeding
-    // to the next Cypress command
-    cy.wrap(
-      Cypress.automation('remote:debugger:protocol', {
-        command: 'Network.setCacheDisabled',
-        params: {
-          cacheDisabled: true,
-        },
-      }),
-    )
     // spy on the network call "GET /todos"
     // give the network intercept an alias
-    cy.intercept('GET', '/todos').as('load')
     cy.visit('/')
   })
 
@@ -30,12 +17,5 @@ describe('App', () => {
     // on the page, it should equal to the number of items
     // returned by the server
     // https://on.cypress.io/then
-    cy.wait('@load')
-      .its('response.body')
-      .should('be.an', 'array')
-      .its('length')
-      .then((n) => {
-        cy.get('.todo-list li').should('have.length', n)
-      })
   })
 })

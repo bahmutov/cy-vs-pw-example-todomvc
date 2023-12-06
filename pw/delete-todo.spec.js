@@ -2,10 +2,9 @@
 const { test, expect } = require('@playwright/test')
 
 test.describe('App', () => {
-  let load
-
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
+    // wait for the page to load the todos
     await page.locator('.loaded').waitFor()
   })
 

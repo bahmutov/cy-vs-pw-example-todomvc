@@ -10,7 +10,7 @@ test.describe('App', () => {
     await page.goto('/')
   })
 
-  test('uses shows the same number of items as sent by the server', async ({
+  test('shows the same number of items as sent by the server', async ({
     page,
   }) => {
     // confirm the network call has happened

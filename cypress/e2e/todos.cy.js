@@ -8,7 +8,7 @@ describe('App', () => {
     cy.visit('/')
   })
 
-  it('uses shows the same number of items as sent by the server', () => {
+  it('shows the same number of items as sent by the server', () => {
     // wait for the network alias
     // get its response body and confirm
     // it is an array

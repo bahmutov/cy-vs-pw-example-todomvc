@@ -1,6 +1,7 @@
 // @ts-check
 /// <reference types="cypress" />
 
+// https://github.com/bahmutov/cy-spok
 import spok from 'cy-spok'
 
 describe('App', () => {
@@ -13,17 +14,16 @@ describe('App', () => {
 
   it('sends new todo object', () => {
     const todos = '.todo-list li'
-    // confirm the application has finished loading
     cy.get('.loaded')
-    // and there are no items
     cy.get(todos).should('have.length', 0)
-    // spy on the "POST /todos" call
-    // give the spy an alias "post-todo"
-    // https://on.cypress.io/intercept
-    // https://on.cypress.io/as
     cy.intercept('POST', '/todos').as('post-todo')
     cy.get('.new-todo').type('Learn testing{enter}')
     // confirm the new todo was sent over the network
+    // and the request includes
+    // - title "Learn testing"
+    // - completed: false
+    // - id: a string
+    // and the response status code is 201
     cy.wait('@post-todo').should(
       spok({
         request: {

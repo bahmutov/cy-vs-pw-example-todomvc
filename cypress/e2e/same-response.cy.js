@@ -1,6 +1,8 @@
 // @ts-check
 /// <reference types="cypress" />
 
+// increase the threshold to see the full object
+// in the assertion "deep.equal"
 chai.config.truncateThreshold = 500
 
 describe('App', () => {

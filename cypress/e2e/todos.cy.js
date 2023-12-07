@@ -5,10 +5,10 @@ describe('App', () => {
   beforeEach(() => {
     cy.request('POST', '/reset', { todos: [] })
     cy.visit('/')
+    cy.get('.loaded')
   })
 
   it('assigns a different id to each new item', () => {
-    cy.get('.loaded')
     // start spying on the "POST /todos" calls
     // assign the intercept an alias "post-todo"
     cy.intercept('POST', '/todos').as('post-todo')

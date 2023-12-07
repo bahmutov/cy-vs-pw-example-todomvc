@@ -1,49 +1,14 @@
 {
   "todos": [
     {
-      "title": "A task",
+      "title": "first todo",
       "completed": false,
-      "id": "9541842334"
+      "id": "2491193994"
     },
     {
-      "title": "A task",
+      "title": "second todo",
       "completed": false,
-      "id": "7002952523"
-    },
-    {
-      "title": "A task",
-      "completed": false,
-      "id": "7602117353"
-    },
-    {
-      "title": "A task",
-      "completed": false,
-      "id": "8529152491"
-    },
-    {
-      "title": "A task",
-      "completed": false,
-      "id": "9077592923"
-    },
-    {
-      "title": "Test",
-      "completed": false,
-      "id": "5811991716"
-    },
-    {
-      "title": "Test",
-      "completed": false,
-      "id": "6842406595"
-    },
-    {
-      "title": "A task",
-      "completed": false,
-      "id": "6518874923"
-    },
-    {
-      "title": "Learn testing",
-      "completed": false,
-      "id": "1147928428"
+      "id": "5271384352"
     }
   ]
 }

@@ -1,42 +1,36 @@
 // @ts-check
 /// <reference types="cypress" />
 
-// https://github.com/bahmutov/cy-spok
-import spok from 'cy-spok'
-
 describe('App', () => {
   beforeEach(() => {
-    // stub the "GET /todos" network calls
-    // and return an empty array
-    cy.intercept('GET', '/todos', { body: [] })
+    cy.request('POST', '/reset', { todos: [] })
     cy.visit('/')
   })
 
-  it('sends new todo object', () => {
-    const todos = '.todo-list li'
+  it('assigns a different id to each new item', () => {
     cy.get('.loaded')
-    cy.get(todos).should('have.length', 0)
+    // start spying on the "POST /todos" calls
+    // assign the intercept an alias "post-todo"
     cy.intercept('POST', '/todos').as('post-todo')
-    cy.get('.new-todo').type('Learn testing{enter}')
-    // confirm the new todo was sent over the network
-    // and the request includes
-    // - title "Learn testing"
-    // - completed: false
-    // - id: a string
-    // and the response status code is 201
-    cy.wait('@post-todo').should(
-      spok({
-        request: {
-          body: {
-            title: 'Learn testing',
-            completed: false,
-            id: spok.string,
-          },
-        },
-        response: {
-          statusCode: 201,
-        },
-      }),
-    )
+    // add new todo with text "first todo"
+    cy.get('.new-todo').type('first todo{enter}')
+    // get the request id sent by the application
+    // from the network call "post-todo"
+    // confirm it is a string
+    cy.wait('@post-todo')
+      .its('request.body.id')
+      .should('be.a', 'string')
+      .then((id) => {
+        // add new todo with text "second todo"
+        cy.get('.new-todo').type('second todo{enter}')
+        // get the request id from the second todo
+        // sent by the application
+        // confirm it is a string
+        // and it is different from the first request
+        cy.wait('@post-todo')
+          .its('request.body.id')
+          .should('be.a', 'string')
+          .and('not.equal', id)
+      })
   })
 })

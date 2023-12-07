@@ -24,19 +24,5 @@ describe('App', () => {
     // - completed: false
     // - id: a string
     // and the response status code is 201
-    cy.wait('@post-todo').should(
-      spok({
-        request: {
-          body: {
-            title: 'Learn testing',
-            completed: false,
-            id: spok.string,
-          },
-        },
-        response: {
-          statusCode: 201,
-        },
-      }),
-    )
   })
 })

@@ -2,38 +2,42 @@
 const { test, expect } = require('@playwright/test')
 
 test.describe('App', () => {
-  test.beforeEach(async ({ page, context }) => {
-    await context.request.post('/reset', { data: { todos: [] } })
+  test('stubs the load data network call three different ways', async ({
+    page,
+  }) => {
+    const todos = page.locator('.todo-list li')
+
+    // stub the "GET /todos" network call
+    // on the first call return the data from the "fixtures/one.json" file
+    // on the second call return the data from the "fixtures/two.json" file
+    // on the third call return the data from the "fixtures/three.json" file
+    let k = 0
+    await page.route('/todos', (route) => {
+      k += 1
+      switch (k) {
+        case 1:
+          return route.fulfill({ path: './fixtures/one.json' })
+        case 2:
+          return route.fulfill({ path: './fixtures/two.json' })
+        default:
+          return route.fulfill({ path: './fixtures/three.json' })
+      }
+    })
+    // load the page
+    // and confirm only 1 todo is shown
     await page.goto('/')
-    await page.locator('.loaded').waitFor()
-  })
-
-  test('assigns a different id to each new item', async ({ page }) => {
-    // spy on the first call to "POST /todos"
-    const routeMatcher = (req) => {
-      return req.method() === 'POST' && req.url().endsWith('/todos')
-    }
-    const postTodo1 = page.waitForRequest(routeMatcher)
-    // add new todo with text "first todo"
-    await page.locator('.new-todo').fill('first todo')
-    await page.locator('.new-todo').press('Enter')
-    // get the request id sent by the application
-    // from the network call "post-todo"
-    // confirm it is a string
-    const id1 = (await postTodo1).postDataJSON().id
-    expect(id1, 'first id').toEqual(expect.any(String))
-
-    // spy on the second call to "POST /todos"
-    const postTodo2 = page.waitForRequest(routeMatcher)
-    // add new todo with text "second todo"
-    await page.locator('.new-todo').fill('first todo')
-    await page.locator('.new-todo').press('Enter')
-    // get the request id from the second todo
-    // sent by the application
-    // confirm it is a string
-    const id2 = (await postTodo2).postDataJSON().id
-    expect(id2, 'second id').toEqual(expect.any(String))
-    // and it is different from the first request
-    expect(id2, 'ids are different').not.toEqual(id1)
+    await expect(todos).toHaveCount(1)
+    // reload the page
+    // confirm there are 2 todos
+    await page.reload()
+    await expect(todos).toHaveCount(2)
+    // reload the page
+    // confirm there are 3 todos
+    await page.reload()
+    await expect(todos).toHaveCount(3)
+    // reload the page one more time
+    // and confirm the 3 todos are still there
+    await page.reload()
+    await expect(todos).toHaveCount(3)
   })
 })

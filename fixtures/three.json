@@ -1,16 +1,16 @@
 [
   {
-    "title": "Buy apples $1",
+    "title": "One",
     "completed": false,
     "id": "1"
   },
   {
-    "title": "Rent movie $4",
+    "title": "Two",
     "completed": true,
     "id": "2"
   },
   {
-    "title": "See a concert $59",
+    "title": "Three",
     "completed": false,
     "id": "3"
   }

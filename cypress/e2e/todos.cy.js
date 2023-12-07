@@ -13,46 +13,14 @@ describe('App', () => {
     // to decide which fixture to return, you can also define a Cypress intercept
     // to work only a certain number of times
     // See the https://on.cypress.io/intercept options
-    cy.intercept(
-      {
-        method: 'GET',
-        path: '/todos',
-      },
-      { fixture: 'three.json' },
-    )
 
-    cy.intercept(
-      {
-        method: 'GET',
-        path: '/todos',
-        times: 1,
-      },
-      { fixture: 'two.json' },
-    )
-
-    cy.intercept(
-      {
-        method: 'GET',
-        path: '/todos',
-        times: 1,
-      },
-      { fixture: 'one.json' },
-    )
     // load the page
     // and confirm only 1 todo is shown
-    cy.visit('/')
-    cy.get(todos).should('have.length', 1)
     // reload the page
     // confirm there are 2 todos
-    cy.reload()
-    cy.get(todos).should('have.length', 2)
     // reload the page
     // confirm there are 3 todos
-    cy.reload()
-    cy.get(todos).should('have.length', 3)
     // reload the page one more time
     // and confirm the 3 todos are still there
-    cy.reload()
-    cy.get(todos).should('have.length', 3)
   })
 })

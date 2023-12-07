@@ -1,5 +1,5 @@
 // @ts-check
-const { test, expect } = require('@playwright/test')
+const { test } = require('@playwright/test')
 
 test.describe('App', () => {
   test('shows a loader', async ({ page }) => {

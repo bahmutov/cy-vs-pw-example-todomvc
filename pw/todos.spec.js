@@ -37,7 +37,7 @@ test.describe('App', () => {
     // get the request data and confirm the known properties
     // like "title" and "completed"
     // the "id" property should be a string
-    const sent = JSON.parse(request.postData() || '')
+    const sent = request.postDataJSON()
     expect(sent, 'request data').toEqual({
       title: 'Learn testing',
       completed: false,

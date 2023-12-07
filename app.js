@@ -87,8 +87,6 @@ function appStart() {
             .then((todos) => {
               setTimeout(() => {
                 commit('SET_TODOS', todos)
-                // set the loaded state after showing all todos
-                commit('SET_LOADING', false)
               }, state.renderDelay)
             })
             .catch((e) => {
@@ -96,7 +94,10 @@ function appStart() {
               console.error(e.message)
               console.error(e.response.data)
             })
-            .finally(() => {})
+            .finally(() => {
+              // set the loaded state after showing all todos
+              commit('SET_LOADING', false)
+            })
         }, state.delay)
       },
 

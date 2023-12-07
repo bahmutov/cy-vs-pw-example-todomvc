@@ -2,35 +2,57 @@
 /// <reference types="cypress" />
 
 describe('App', () => {
-  beforeEach(() => {
-    cy.request('POST', '/reset', { todos: [] })
-    cy.visit('/')
-    cy.get('.loaded')
-  })
+  it('stubs the load data network call three different ways', () => {
+    const todos = '.todo-list li'
 
-  it('assigns a different id to each new item', () => {
-    // start spying on the "POST /todos" calls
-    // assign the intercept an alias "post-todo"
-    cy.intercept('POST', '/todos').as('post-todo')
-    // add new todo with text "first todo"
-    cy.get('.new-todo').type('first todo{enter}')
-    // get the request id sent by the application
-    // from the network call "post-todo"
-    // confirm it is a string
-    cy.wait('@post-todo')
-      .its('request.body.id')
-      .should('be.a', 'string')
-      .then((id) => {
-        // add new todo with text "second todo"
-        cy.get('.new-todo').type('second todo{enter}')
-        // get the request id from the second todo
-        // sent by the application
-        // confirm it is a string
-        // and it is different from the first request
-        cy.wait('@post-todo')
-          .its('request.body.id')
-          .should('be.a', 'string')
-          .and('not.equal', id)
-      })
+    // stub the "GET /todos" network call
+    // on the first call return the data from the "fixtures/one.json" file
+    // on the second call return the data from the "fixtures/two.json" file
+    // on the third call return the data from the "fixtures/three.json" file
+    // Tip: while you can write a callback that keeps the request count
+    // to decide which fixture to return, you can also define a Cypress intercept
+    // to work only a certain number of times
+    // See the https://on.cypress.io/intercept options
+    cy.intercept(
+      {
+        method: 'GET',
+        path: '/todos',
+      },
+      { fixture: 'three.json' },
+    )
+
+    cy.intercept(
+      {
+        method: 'GET',
+        path: '/todos',
+        times: 1,
+      },
+      { fixture: 'two.json' },
+    )
+
+    cy.intercept(
+      {
+        method: 'GET',
+        path: '/todos',
+        times: 1,
+      },
+      { fixture: 'one.json' },
+    )
+    // load the page
+    // and confirm only 1 todo is shown
+    cy.visit('/')
+    cy.get(todos).should('have.length', 1)
+    // reload the page
+    // confirm there are 2 todos
+    cy.reload()
+    cy.get(todos).should('have.length', 2)
+    // reload the page
+    // confirm there are 3 todos
+    cy.reload()
+    cy.get(todos).should('have.length', 3)
+    // reload the page one more time
+    // and confirm the 3 todos are still there
+    cy.reload()
+    cy.get(todos).should('have.length', 3)
   })
 })

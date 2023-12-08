@@ -5,6 +5,7 @@ describe('App', () => {
   it('inserts the first todo', () => {
     const todos = '.todo-list li'
     const title = 'The first one!'
+
     // spy on the "GET /todos" network call
     // before the request continues
     // delete the header "if-none-match" to avoid

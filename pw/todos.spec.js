@@ -4,8 +4,8 @@ const { test, expect } = require('@playwright/test')
 test.describe('App', () => {
   test('inserts the first todo', async ({ page }) => {
     const todos = page.locator('.todo-list li')
-
     const title = 'The first one!'
+
     // spy on the "GET /todos" network call
     // once the response arrives
     // confirm it is an array

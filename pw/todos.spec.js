@@ -2,42 +2,56 @@
 const { test, expect } = require('@playwright/test')
 
 test.describe('App', () => {
-  test('stubs the load data network call three different ways', async ({
-    page,
-  }) => {
-    const todos = page.locator('.todo-list li')
+  test.beforeEach(async ({ request, page }) => {
+    await request.post('/reset', { data: { todos: [] } })
+    await page.goto('/')
+    await page.locator('.loaded').waitFor()
+  })
 
-    // stub the "GET /todos" network call
-    // on the first call return the data from the "fixtures/one.json" file
-    // on the second call return the data from the "fixtures/two.json" file
-    // on the third call return the data from the "fixtures/three.json" file
-    let k = 0
-    await page.route('/todos', (route) => {
-      k += 1
-      switch (k) {
-        case 1:
-          return route.fulfill({ path: './fixtures/one.json' })
-        case 2:
-          return route.fulfill({ path: './fixtures/two.json' })
-        default:
-          return route.fulfill({ path: './fixtures/three.json' })
+  test('confirms the entire sent Todo object', async ({ page }) => {
+    // start spying on the network requests to "/todos"
+    const post = page.waitForRequest('/todos')
+    // https://playwright.dev/docs/api/class-page
+    // using the "page.evaluate" method
+    // inject into the application's window a script
+    // that replaces "window.Math.random" method with a dummy
+    // function that:
+    // - calls the real Math.random() to generate a random float
+    // - stores the newly created random float
+    // - returns the created random float to the caller
+    // Tip: to later be able to read the generated float
+    // stores it as a property of the window object
+    page.evaluate(() => {
+      const rand = Math.random
+      Math.random = () => {
+        // @ts-ignore
+        window.lastRandom = rand()
+        // @ts-ignore
+        return window.lastRandom
       }
     })
-    // load the page
-    // and confirm only 1 todo is shown
-    await page.goto('/')
-    await expect(todos).toHaveCount(1)
-    // reload the page
-    // confirm there are 2 todos
-    await page.reload()
-    await expect(todos).toHaveCount(2)
-    // reload the page
-    // confirm there are 3 todos
-    await page.reload()
-    await expect(todos).toHaveCount(3)
-    // reload the page one more time
-    // and confirm the 3 todos are still there
-    await page.reload()
-    await expect(todos).toHaveCount(3)
+    // type new type "Code" into the input box
+    await page.locator('input.new-todo').fill('Code')
+    await page.locator('input.new-todo').press('Enter')
+    // by now, the Math.random should have been called by the application
+    // use the "page.evaluate" to get the saved valued
+    // which is the random number the app used to derive the todo "id"
+    // use the same logic to form the string item ID value
+    const id = await page.evaluate(() =>
+      // @ts-ignore
+      String(window.lastRandom).substr(2, 10),
+    )
+    // log the id the app received
+    console.log(`new item id ${id}`)
+    // wait for the network call to post the new todo
+    const request = await post
+    // get the post network request data
+    const data = request.postDataJSON()
+    // and confirm ALL its fields
+    expect(data, 'posted').toEqual({
+      title: 'Code',
+      completed: false,
+      id,
+    })
   })
 })

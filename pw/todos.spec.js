@@ -2,42 +2,38 @@
 const { test, expect } = require('@playwright/test')
 
 test.describe('App', () => {
-  test('stubs the load data network call three different ways', async ({
-    page,
-  }) => {
+  test('inserts the first todo', async ({ page }) => {
     const todos = page.locator('.todo-list li')
 
-    // stub the "GET /todos" network call
-    // on the first call return the data from the "fixtures/one.json" file
-    // on the second call return the data from the "fixtures/two.json" file
-    // on the third call return the data from the "fixtures/three.json" file
-    let k = 0
-    await page.route('/todos', (route) => {
-      k += 1
-      switch (k) {
-        case 1:
-          return route.fulfill({ path: './fixtures/one.json' })
-        case 2:
-          return route.fulfill({ path: './fixtures/two.json' })
-        default:
-          return route.fulfill({ path: './fixtures/three.json' })
-      }
+    const title = 'The first one!'
+    // spy on the "GET /todos" network call
+    // once the response arrives
+    // confirm it is an array
+    // and insert a new object at the first position
+    // title, completed=false, id="1234"
+    // https://playwright.dev/docs/mock
+    await page.route('/todos', async (route) => {
+      const response = await route.fetch()
+      const json = await response.json()
+      json.unshift({ title, completed: false, id: '1234' })
+      // Fulfill using the original response, while patching the response body
+      // with the given JSON object.
+      await route.fulfill({ response, json })
     })
-    // load the page
-    // and confirm only 1 todo is shown
+
     await page.goto('/')
-    await expect(todos).toHaveCount(1)
-    // reload the page
-    // confirm there are 2 todos
-    await page.reload()
-    await expect(todos).toHaveCount(2)
-    // reload the page
-    // confirm there are 3 todos
-    await page.reload()
-    await expect(todos).toHaveCount(3)
-    // reload the page one more time
-    // and confirm the 3 todos are still there
-    await page.reload()
-    await expect(todos).toHaveCount(3)
+
+    // confirm there is at least one todo
+    // and the first todo element
+    // has the title text
+    // and has the class "todo"
+    // and does not have class "completed"
+    await expect(async () => {
+      const n = await todos.count()
+      expect(n).toBeGreaterThan(0)
+    }).toPass()
+    await expect(todos.first()).toHaveText(title)
+    await expect(todos.first()).toHaveClass(/todo/)
+    await expect(todos.first()).not.toHaveClass(/completed/)
   })
 })

@@ -2,57 +2,41 @@
 /// <reference types="cypress" />
 
 describe('App', () => {
-  it('stubs the load data network call three different ways', () => {
+  it('inserts the first todo', () => {
     const todos = '.todo-list li'
+    const title = 'The first one!'
+    // spy on the "GET /todos" network call
+    // before the request continues
+    // delete the header "if-none-match" to avoid
+    // the server responding with "304 Not Modified"
+    // once the response arrives
+    // confirm it is an array
+    // and insert a new object at the first position
+    // title, completed=false, id="1234"
+    // https://on.cypress.io/intercept
+    cy.intercept('GET', '/todos', (req) => {
+      delete req.headers['if-none-match']
+      req.continue((res) => {
+        expect(res.body, 'response list').to.be.an('array')
+        res.body.unshift({
+          title,
+          completed: false,
+          id: '1234',
+        })
+      })
+    })
 
-    // stub the "GET /todos" network call
-    // on the first call return the data from the "fixtures/one.json" file
-    // on the second call return the data from the "fixtures/two.json" file
-    // on the third call return the data from the "fixtures/three.json" file
-    // Tip: while you can write a callback that keeps the request count
-    // to decide which fixture to return, you can also define a Cypress intercept
-    // to work only a certain number of times
-    // See the https://on.cypress.io/intercept options
-    cy.intercept(
-      {
-        method: 'GET',
-        path: '/todos',
-      },
-      { fixture: 'three.json' },
-    )
-
-    cy.intercept(
-      {
-        method: 'GET',
-        path: '/todos',
-        times: 1,
-      },
-      { fixture: 'two.json' },
-    )
-
-    cy.intercept(
-      {
-        method: 'GET',
-        path: '/todos',
-        times: 1,
-      },
-      { fixture: 'one.json' },
-    )
-    // load the page
-    // and confirm only 1 todo is shown
     cy.visit('/')
-    cy.get(todos).should('have.length', 1)
-    // reload the page
-    // confirm there are 2 todos
-    cy.reload()
-    cy.get(todos).should('have.length', 2)
-    // reload the page
-    // confirm there are 3 todos
-    cy.reload()
-    cy.get(todos).should('have.length', 3)
-    // reload the page one more time
-    // and confirm the 3 todos are still there
-    cy.reload()
-    cy.get(todos).should('have.length', 3)
+    // confirm there is at least one todo
+    // and the first todo element
+    // has the title text
+    // and has the class "todo"
+    // and does not have class "completed"
+    cy.get(todos)
+      .should('have.length.greaterThan', 0)
+      .first()
+      .should('include.text', title)
+      .and('have.class', 'todo')
+      .and('not.have.class', 'completed')
   })
 })

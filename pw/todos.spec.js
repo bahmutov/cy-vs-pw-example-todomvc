@@ -2,56 +2,33 @@
 const { test, expect } = require('@playwright/test')
 
 test.describe('App', () => {
-  test.beforeEach(async ({ request, page }) => {
-    await request.post('/reset', { data: { todos: [] } })
-    await page.goto('/')
-    await page.locator('.loaded').waitFor()
-  })
-
-  test('confirms the entire sent Todo object', async ({ page }) => {
-    // start spying on the network requests to "/todos"
-    const post = page.waitForRequest('/todos')
-    // https://playwright.dev/docs/api/class-page
-    // using the "page.evaluate" method
-    // inject into the application's window a script
-    // that replaces "window.Math.random" method with a dummy
-    // function that:
-    // - calls the real Math.random() to generate a random float
-    // - stores the newly created random float
-    // - returns the created random float to the caller
-    // Tip: to later be able to read the generated float
-    // stores it as a property of the window object
-    page.evaluate(() => {
-      const rand = Math.random
-      Math.random = () => {
+  test('prints the load start message', async ({ page }) => {
+    const log = []
+    // expose function in the application's "window" object
+    // called "logCall" which simply pushes its argument
+    // into the "log" array
+    // Read "Verifying API calls"
+    // https://playwright.dev/docs/mock-browser-apis
+    await page.exposeFunction('logCall', (x) => log.push(x))
+    // inject the initial script into the application
+    // that overwrites the "console.log" method
+    // the overwrite should:
+    // - call the real "console.log" method
+    // - call the "logCall" function to pass the arguments
+    await page.addInitScript(() => {
+      const realLog = console.log.bind(console)
+      console.log = (...args) => {
+        realLog.apply(null, args)
         // @ts-ignore
-        window.lastRandom = rand()
-        // @ts-ignore
-        return window.lastRandom
+        window.logCall(args)
       }
     })
-    // type new type "Code" into the input box
-    await page.locator('input.new-todo').fill('Code')
-    await page.locator('input.new-todo').press('Enter')
-    // by now, the Math.random should have been called by the application
-    // use the "page.evaluate" to get the saved valued
-    // which is the random number the app used to derive the todo "id"
-    // use the same logic to form the string item ID value
-    const id = await page.evaluate(() =>
-      // @ts-ignore
-      String(window.lastRandom).substr(2, 10),
-    )
-    // log the id the app received
-    console.log(`new item id ${id}`)
-    // wait for the network call to post the new todo
-    const request = await post
-    // get the post network request data
-    const data = request.postDataJSON()
-    // and confirm ALL its fields
-    expect(data, 'posted').toEqual({
-      title: 'Code',
-      completed: false,
-      id,
-    })
+    // visit the application page
+    await page.goto('/')
+    // confirm the "log" array includes the following arguments
+    // ['loadTodos start, delay is %d', 0]
+    await expect(() => {
+      expect(log).toContainEqual(['loadTodos start, delay is %d', 0])
+    }).toPass()
   })
 })

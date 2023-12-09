@@ -9,26 +9,16 @@ test.describe('App', () => {
     // into the "log" array
     // Read "Verifying API calls"
     // https://playwright.dev/docs/mock-browser-apis
-    await page.exposeFunction('logCall', (x) => log.push(x))
+
     // inject the initial script into the application
     // that overwrites the "console.log" method
     // the overwrite should:
     // - call the real "console.log" method
     // - call the "logCall" function to pass the arguments
-    await page.addInitScript(() => {
-      const realLog = console.log.bind(console)
-      console.log = (...args) => {
-        realLog.apply(null, args)
-        // @ts-ignore
-        window.logCall(args)
-      }
-    })
+
     // visit the application page
-    await page.goto('/')
+
     // confirm the "log" array includes the following arguments
     // ['loadTodos start, delay is %d', 0]
-    await expect(() => {
-      expect(log).toContainEqual(['loadTodos start, delay is %d', 0])
-    }).toPass()
   })
 })

@@ -9,17 +9,7 @@ describe('App', () => {
     // give the spy an alias "log"
     // https://on.cypress.io/visit
     // https://on.cypress.io/spy
-    cy.visit('/', {
-      onBeforeLoad(win) {
-        cy.spy(win.console, 'log').as('log')
-      },
-    })
     // confirm the "log" spy was called with
     // two expected arguments
-    cy.get('@log').should(
-      'have.been.calledWith',
-      'loadTodos start, delay is %d',
-      0,
-    )
   })
 })

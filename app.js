@@ -77,28 +77,25 @@ function appStart() {
       },
 
       loadTodos({ commit, state }) {
-        console.log('loadTodos start, delay is %d', state.delay)
-        setTimeout(() => {
-          commit('SET_LOADING', true)
+        commit('SET_LOADING', true)
 
-          axios
-            .get('/todos')
-            .then((r) => r.data)
-            .then((todos) => {
-              setTimeout(() => {
-                commit('SET_TODOS', todos)
-              }, state.renderDelay)
-            })
-            .catch((e) => {
-              console.error('could not load todos')
-              console.error(e.message)
-              console.error(e.response.data)
-            })
-            .finally(() => {
-              // set the loaded state after showing all todos
-              commit('SET_LOADING', false)
-            })
-        }, state.delay)
+        axios
+          .get('/todos')
+          .then((r) => r.data)
+          .then((todos) => {
+            setTimeout(() => {
+              commit('SET_TODOS', todos)
+            }, state.renderDelay)
+          })
+          .catch((e) => {
+            console.error('could not load todos')
+            console.error(e.message)
+            console.error(e.response.data)
+          })
+          .finally(() => {
+            // set the loaded state after showing all todos
+            commit('SET_LOADING', false)
+          })
       },
 
       /**
@@ -218,7 +215,7 @@ function appStart() {
       // how would you test the periodic loading of todos?
       setInterval(() => {
         this.$store.dispatch('loadTodos')
-      }, 60000)
+      }, 60_000)
     },
 
     // computed properties
@@ -307,8 +304,4 @@ function appStart() {
   // }
 }
 
-if (appStartDelay > 0) {
-  setTimeout(appStart, appStartDelay)
-} else {
-  appStart()
-}
+appStart()

@@ -11,7 +11,8 @@
     "cy:open": "cypress open",
     "e2e": "start-test http://localhost:3000 test:cy",
     "open:pw": "playwright test --ui",
-    "open:cy": "start-test start http://localhost:3000 cy:open"
+    "open:cy": "start-test start http://localhost:3000 cy:open",
+    "bundle-timers": "node ./build-fake-timers.mjs"
   },
   "keywords": [],
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
@@ -22,12 +23,16 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
+    "@sinonjs/fake-timers": "^11.2.2",
     "@types/node": "^20.8.10",
     "cy-spok": "^1.6.2",
     "cypress": "^13.6.1",
     "cypress-map": "^1.21.2",
     "cypress-real-events": "^1.11.0",
+    "esbuild": "^0.19.10",
+    "esbuild-plugin-polyfill-node": "^0.3.0",
     "prettier": "^3.0.3",
+    "rollup": "^4.9.1",
     "start-server-and-test": "^2.0.2"
   }
 }

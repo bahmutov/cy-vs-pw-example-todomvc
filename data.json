@@ -1,9 +1,14 @@
 {
   "todos": [
     {
-      "title": "Code",
+      "title": "Code the app",
       "completed": false,
       "id": "4092353919"
+    },
+    {
+      "title": "Write the tests",
+      "completed": false,
+      "id": "889099912"
     }
   ]
 }

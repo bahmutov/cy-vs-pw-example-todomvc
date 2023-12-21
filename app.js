@@ -53,6 +53,8 @@ function appStart() {
         if (window.Cypress) {
           window.todos = todos
         }
+        // save the todos to the local storage
+        localStorage.setItem('todos', JSON.stringify(todos))
       },
       SET_NEW_TODO(state, todo) {
         state.newTodo = todo

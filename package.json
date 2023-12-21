@@ -33,6 +33,7 @@
     "esbuild-plugin-polyfill-node": "^0.3.0",
     "prettier": "^3.0.3",
     "rollup": "^4.9.1",
+    "sinon": "^17.0.1",
     "start-server-and-test": "^2.0.2"
   }
 }

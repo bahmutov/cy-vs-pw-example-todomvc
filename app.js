@@ -77,6 +77,7 @@ function appStart() {
       },
 
       loadTodos({ commit, state }) {
+        console.log('loading todos')
         commit('SET_LOADING', true)
 
         axios

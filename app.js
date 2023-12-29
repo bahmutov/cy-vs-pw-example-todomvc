@@ -301,10 +301,10 @@ function appStart() {
   })(app, Router)
 
   // if you want to expose "app" globally only
-  // during end-to-end tests you can guard it using "window.Cypress" flag
-  // if (window.Cypress) {
-  window.app = app
-  // }
+  // during end-to-end tests you can guard it using a flag
+  if (window.exposeAppInstanceDuringTests) {
+    window.app = app
+  }
 }
 
 appStart()

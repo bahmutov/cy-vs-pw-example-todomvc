@@ -9,6 +9,7 @@ test.describe('App', () => {
     // reset the backend to only have those todo items
     // by making a network request to the "/reset" endpoint
     await request.post('/reset', { data: { todos } })
+    // signal to the app to set the "window.app" object
     await page.addInitScript(() => {
       // @ts-ignore
       window.exposeAppInstanceDuringTests = true

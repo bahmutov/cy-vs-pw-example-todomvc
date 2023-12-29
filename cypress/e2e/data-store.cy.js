@@ -8,6 +8,7 @@ describe('App', () => {
     cy.fixture('two-items').then((todos) => {
       cy.request('POST', '/reset', { todos })
     })
+    // signal to the app to set the "window.app" object
     cy.visit('/', {
       onBeforeLoad(win) {
         // @ts-ignore

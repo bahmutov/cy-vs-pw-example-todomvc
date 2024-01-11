@@ -110,13 +110,14 @@ function appStart() {
       setNewTodo({ commit }, todo) {
         commit('SET_NEW_TODO', todo)
       },
-      addTodo({ commit, state }) {
-        if (!state.newTodo) {
+      addTodo({ commit, state }, newTodo) {
+        const title = state.newTodo || newTodo
+        if (!title) {
           // do not add empty todos
           return
         }
         const todo = {
-          title: state.newTodo,
+          title,
           completed: false,
           id: randomId(),
         }
@@ -126,7 +127,7 @@ function appStart() {
         // increase the timeout delay to make the test fail
         // 50ms should be good
         setTimeout(() => {
-          track('todo.add', todo.title)
+          track('todo.add', title)
           axios.post('/todos', todo).then(() => {
             commit('ADD_TODO', todo)
           })
@@ -207,7 +208,7 @@ function appStart() {
     created() {
       const delay = parseFloat(params.get('delay') || '0')
       const renderDelay = parseFloat(params.get('renderDelay') || '0')
-      addTodoDelay = parseFloat(params.get('addTodoDelay') || '0')
+      addTodoDelay = parseFloat(params.get('addTodoDelay') || '1000')
 
       this.$store.dispatch('setRenderDelay', renderDelay).then(() => {
         this.$store.dispatch('setDelay', delay).then(() => {
@@ -300,11 +301,8 @@ function appStart() {
     router.init()
   })(app, Router)
 
-  // if you want to expose "app" globally only
-  // during end-to-end tests you can guard it using a flag
-  if (window.exposeAppInstanceDuringTests) {
-    window.app = app
-  }
+  // let's expose "app" globally
+  window.app = app
 }
 
 appStart()

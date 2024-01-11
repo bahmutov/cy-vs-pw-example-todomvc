@@ -5,15 +5,10 @@ const { test, expect } = require('@playwright/test')
 const todos = require('../fixtures/two-items.json')
 
 test.describe('App', () => {
-  test('stores todos in the Vuex data store', async ({ page, request }) => {
+  test('adds new todos by using an app action', async ({ page, request }) => {
     // reset the backend to only have those todo items
     // by making a network request to the "/reset" endpoint
     await request.post('/reset', { data: { todos } })
-    // signal to the app to set the "window.app" object
-    await page.addInitScript(() => {
-      // @ts-ignore
-      window.exposeAppInstanceDuringTests = true
-    })
     // visit the home page
     await page.goto('/')
     // there should be two items on the page
@@ -23,14 +18,16 @@ test.describe('App', () => {
       return 'app' in window
     })
     expect(appPresent, 'window.app is present').toBeTruthy()
-    // the "app" object should have a property "todos"
-    // with 2 items. If you map each item to its "title" property
-    // it should yield an array with:
-    // ["Code the app", "Write the tests"]
-    const titles = await page.evaluate(() => {
+    // call the method "dispatch" on the "app.$store" object
+    // to add a new todo with the text "Run tests"
+    await page.evaluate(() => {
       // @ts-ignore
-      return window.app.todos.map((t) => t.title)
+      window.app.$store.dispatch('addTodo', 'Run tests')
     })
-    expect(titles, 'titles').toEqual(['Code the app', 'Write the tests'])
+    // confirm the list of todos has text
+    // "Run tests" as the last item
+    await expect(page.locator('li.todo').last().locator('label')).toHaveText(
+      'Run tests',
+    )
   })
 })

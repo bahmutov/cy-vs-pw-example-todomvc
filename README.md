@@ -15,4 +15,6 @@
 - [Lesson b1: Test adding a single todo item](https://cypress.tips/courses/cypress-vs-playwright/b1)
 - [Lesson b2: Remove code duplicationURL](https://cypress.tips/courses/cypress-vs-playwright/b2)
 
+and many others
+
 ![TodoMVC app](./images/app.png)

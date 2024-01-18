@@ -12,21 +12,12 @@ describe('App', () => {
       cy.visit('/')
       // get the list of todos from the application
       // using the "window.appTodos" property
-      cy.window()
-        .its('appTodos')
-        // confirm that the todo titles you got from the app
-        // are the same as the titles in the loaded todos fixture
-        .map('title')
-        .should('deep.equal', Cypress._.map(todos, 'title'))
+      //
+      // confirm that the todo titles you got from the app
+      // are the same as the titles in the loaded todos fixture
+      //
       // confirm that each item in the todos list points at the list
       // via the "list" property
-      cy.window()
-        .its('appTodos')
-        .then((todos) => {
-          todos.forEach((todo, k) => {
-            expect(todo.list, `item ${k + 1}`).to.equal(todos)
-          })
-        })
     })
   })
 })

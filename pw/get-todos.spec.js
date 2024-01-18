@@ -13,16 +13,11 @@ test.describe('App', () => {
     await page.goto('/')
     // get the list of todos from the application
     // using the "window.appTodos" property
-    const appTodos = await page.evaluate(() => window.appTodos)
+    //
     // confirm that the todo titles you got from the app
     // are the same as the titles in the loaded todos fixture
-    const titles = appTodos.map((t) => t.title)
-    const expectedTitles = todos.map((t) => t.title)
-    expect(titles, 'todo titles').toEqual(expectedTitles)
+    //
     // confirm that each item in the todos list points at the list
     // via the "list" property
-    appTodos.forEach((todo, k) => {
-      expect(todo.list, `item ${k + 1}`).toBe(appTodos)
-    })
   })
 })

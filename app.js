@@ -49,10 +49,11 @@ function appStart() {
       SET_TODOS(state, todos) {
         state.todos = todos
         // expose the todos via the global "window" object
-        // but only if we are running Cypress tests
-        if (window.Cypress) {
-          window.todos = todos
-        }
+        window.appTodos = structuredClone(todos)
+        window.appTodos.forEach((todo) => {
+          // each todo will have a reference to the parent list
+          todo.list = window.appTodos
+        })
         // save the todos to the local storage
         localStorage.setItem('todos', JSON.stringify(todos))
       },

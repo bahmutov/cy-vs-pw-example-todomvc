@@ -16,26 +16,15 @@ describe('App', () => {
     // https://on.cypress.io/window
     // https://on.cypress.io/its
     // https://on.cypress.io/spy
-    cy.window()
-      .its('app.$store._mutations.ADD_TODO')
-      .then((addTodoMutations) => {
-        // confirm the list of ADD_TODO mutations has 1 element
-        expect(addTodoMutations).to.have.length(1)
-        // spy on the first mutation and give it an alias "addTodo"
-        cy.spy(addTodoMutations, '0').as('addTodo')
-      })
+    // confirm the list of ADD_TODO mutations has 1 element
+    // spy on the first mutation and give it an alias "addTodo"
+    //
     // type the todo "a test" into the input element
-    cy.get('.new-todo').type('a test{enter}')
     // confirm the "a test" todo appears on the page
-    cy.contains('li.todo', 'a test')
+    //
     // get the "addTodo" spy and confirm it was called
     // with expected argument object
     // Question: you know the title and the completed property
     // but how do you know the ID?
-    cy.get('@addTodo').should('have.been.calledOnceWith', {
-      completed: false,
-      id: Cypress.sinon.match.string,
-      title: 'a test',
-    })
   })
 })

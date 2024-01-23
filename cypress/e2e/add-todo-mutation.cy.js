@@ -1,8 +1,6 @@
 // @ts-check
 /// <reference types="cypress" />
 
-import 'cypress-map'
-
 describe('App', () => {
   it('uses ADD_TODO mutation', () => {
     cy.request('POST', '/reset', { todos: [] })

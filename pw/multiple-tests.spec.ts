@@ -1,4 +1,3 @@
-// @ts-check
 import { test, type Page, expect } from '@playwright/test'
 
 import todos from '../fixtures/two-items.json'

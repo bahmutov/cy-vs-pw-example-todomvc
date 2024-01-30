@@ -1,9 +1,19 @@
 {
   "todos": [
     {
-      "title": "a test",
+      "title": "Code the app",
+      "completed": true,
+      "id": "4092353919"
+    },
+    {
+      "title": "Write the tests",
       "completed": false,
-      "id": "4716008377"
+      "id": "889099912"
+    },
+    {
+      "title": "Follow Gleb",
+      "completed": false,
+      "id": "889779912"
     }
   ]
 }

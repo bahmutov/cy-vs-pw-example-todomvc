@@ -2,7 +2,7 @@
 
 > Cypress vs Playwright TodoMVC example app
 
-🎓 See course [Cypress vs Playwright](https://cypress.tips/courses/cypress-vs-playwright)
+🎓 See course [Cypress vs Playwright](https://cypress.tips/courses/cypress-vs-playwright) and [Cypress & Playwright Workshop](https://github.com/bahmutov/cypress-workshop-cy-vs-pw)
 
 - [Lesson a1: Add Playwright to TodoMVC app](https://cypress.tips/courses/cypress-vs-playwright/a1)
 - [Lesson a2: Add Cypress to TodoMVC app](https://cypress.tips/courses/cypress-vs-playwright/a2)

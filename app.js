@@ -84,9 +84,9 @@ function appStart() {
           .get('/todos')
           .then((r) => r.data)
           .then((todos) => {
-            setTimeout(() => {
-              commit('SET_TODOS', todos)
-            }, state.renderDelay)
+            // setTimeout(() => {
+            commit('SET_TODOS', todos)
+            // }, state.renderDelay)
           })
           .catch((e) => {
             console.error('could not load todos')
@@ -123,12 +123,12 @@ function appStart() {
         // in cypress/integration/08-retry-ability/answer.js
         // increase the timeout delay to make the test fail
         // 50ms should be good
-        setTimeout(() => {
-          track('todo.add', todo.title)
-          axios.post('/todos', todo).then(() => {
-            commit('ADD_TODO', todo)
-          })
-        }, addTodoDelay)
+        // setTimeout(() => {
+        track('todo.add', todo.title)
+        axios.post('/todos', todo).then(() => {
+          commit('ADD_TODO', todo)
+        })
+        // }, addTodoDelay)
       },
       addEntireTodo({ commit }, todoFields) {
         const todo = {

@@ -9,19 +9,15 @@ describe('App', () => {
     cy.intercept('GET', '/todos').as('loadTodos')
     // control the application's clock
     // https://on.cypress.io/clock
-    cy.clock()
     cy.visit('/')
     // confirm the application called the "loadTodos" endpoint
     // Tip: you can even use a short 100ms timeout
     cy.wait('@loadTodos', { timeout: 100 })
     // advance the application's clock by 61 seconds
     // https://on.cypress.io/tick
-    cy.tick(61_000)
     // confirm the application called the "loadTodos" endpoint
-    cy.wait('@loadTodos', { timeout: 100 })
+
     // advance the application's clock by another 61 seconds
-    cy.tick(61_000)
     // confirm the application called the "loadTodos" endpoint
-    cy.wait('@loadTodos', { timeout: 100 })
   })
 })

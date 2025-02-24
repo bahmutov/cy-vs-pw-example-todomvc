@@ -9,4 +9,10 @@ it('has title', () => {
   // the page title should have text "cy-vs-pw-example-todomvc"
   // https://on.cypress.io/title
   cy.title().should('equal', 'cy-vs-pw-example-todomvc')
+
+  // confirm there are 3 todo items on the page
+  // use the CSS selector ".todo-list li"
+  // https://on.cypress.io/get
+  // and "should have length" assertion
+  // https://on.cypress.io/should
 })

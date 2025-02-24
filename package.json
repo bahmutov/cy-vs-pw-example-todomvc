@@ -8,7 +8,9 @@
     "reset": "node reset-db.js",
     "test:pw": "playwright test",
     "test:cy": "cypress run",
-    "e2e": "start-test start 3000 test:cy"
+    "cy:open": "cypress open",
+    "e2e": "start-test start http://localhost:3000 test:cy",
+    "dev": "start-test start http://localhost:3000 cy:open"
   },
   "keywords": [],
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",

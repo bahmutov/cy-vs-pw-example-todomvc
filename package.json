@@ -9,7 +9,9 @@
     "test:pw": "playwright test",
     "test:cy": "cypress run",
     "e2e": "start-test start 3000 test:cy",
-    "open:pw": "playwright test --ui"
+    "cy:open": "cypress open",
+    "open:pw": "playwright test --ui",
+    "dev": "start-test http://localhost:3000 cy:open"
   },
   "keywords": [],
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",

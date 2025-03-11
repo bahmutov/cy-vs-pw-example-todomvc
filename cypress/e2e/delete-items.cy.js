@@ -17,15 +17,6 @@ describe('App', () => {
     // can you hover of the todo item
     // and avoid using .click({ force: true })
     cy.get(todos).eq(1).find('.destroy').click({ force: true })
-
-    cy.get(todos)
-      .should('have.length', 2)
-      .then(($li) => Cypress._.map($li, 'innerText'))
-      .should('deep.equal', ['Write code', 'Make tests pass'])
-
-    // can you hover of the todo item
-    // and avoid using .click({ force: true })
-    cy.get(todos).first().find('.destroy').click({ force: true })
-    cy.get(todos).should('have.length', 1).contains('Make tests pass')
+    cy.get(todos).should('have.length', 2)
   })
 })

@@ -1,6 +1,11 @@
 {
   "todos": [
     {
+      "title": "Write code",
+      "completed": false,
+      "id": "1"
+    },
+    {
       "title": "Make tests pass",
       "completed": false,
       "id": "3"

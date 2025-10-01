@@ -116,7 +116,7 @@
       </footer>
     </section>
     <footer class="info">
-      <p>cy-vs-pw-example-todomvc</p>
+      <p>cy-vs-pw-example-todomvc <span id="date"></span></p>
       <p>
         <a href="https://cypress.tips/courses/cypress-vs-playwright"
           >Cypress vs Playwright</a
@@ -131,6 +131,10 @@
     <script src="vendor/vuex.js"></script>
     <script src="vendor/axios.min.js"></script>
     <script src="app.js"></script>
+
+    <script>
+      document.getElementById('date').innerText = new Date().toLocaleString()
+    </script>
 
     <!-- dummy analytics library that calls "window.track()" on load -->
     <script src="analytics.js"></script>

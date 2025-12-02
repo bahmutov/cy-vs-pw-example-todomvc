@@ -2,15 +2,15 @@
 const { test, expect } = require('@playwright/test')
 
 // start each test with zero todos
-test.beforeEach(async ({ request }) => {
-  request.post('/reset', { data: { todos: [] } })
-})
+// test.beforeEach(async ({ request }) => {
+//   request.post('/reset', { data: { todos: [] } })
+// })
 
 // Tip: read the "Actions" Guide before implementing this test
 // https://playwright.dev/docs/input
 test('adding todos', async ({ page }) => {
   // visit the application
-  await page.goto('/')
+  await page.goto('http://localhost:3000')
   // wait for the body.loaded element to be visible
   await expect(page.locator('body.loaded')).toBeVisible()
   // there should be zero todo items

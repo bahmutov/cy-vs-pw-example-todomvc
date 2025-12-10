@@ -1,7 +1,4 @@
 // @ts-check
-/// <reference types="cypress" />
-
-// @ts-check
 const { test, expect } = require('@playwright/test')
 
 test.describe('TodoMVC', () => {

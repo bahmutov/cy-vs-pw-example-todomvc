@@ -3,22 +3,29 @@ const { test, expect } = require('@playwright/test')
 
 test.describe('Complete todos', () => {
   test.beforeEach(async ({ request }) => {
-    request.post('/reset', { data: { todos: [] } })
+    const todos = [
+      {
+        title: 'Write code',
+        completed: false,
+        id: '9719548620',
+      },
+      {
+        title: 'Write tests',
+        completed: false,
+        id: '7560280342',
+      },
+      {
+        title: 'Make tests pass',
+        completed: false,
+        id: '8607162111',
+      },
+    ]
+    request.post('/reset', { data: { todos } })
   })
 
   test('completes a todo', async ({ page }) => {
-    const input = page.getByPlaceholder('What needs to be done?')
     const todos = page.locator('.todo-list li')
-
     await page.goto('/')
-    await page.locator('body.loaded').waitFor()
-
-    await input.fill('Write code')
-    await input.press('Enter')
-    await input.fill('Write tests')
-    await input.press('Enter')
-    await input.fill('Make tests pass')
-    await input.press('Enter')
 
     // 3 incomplete todos
     await expect(todos).toHaveCount(3)

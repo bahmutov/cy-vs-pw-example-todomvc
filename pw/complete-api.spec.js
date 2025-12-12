@@ -20,7 +20,7 @@ test.describe('Complete todos', () => {
         id: '8607162111',
       },
     ]
-    request.post('/reset', { data: { todos } })
+    await request.post('/reset', { data: { todos } })
   })
 
   test('completes a todo', async ({ page }) => {

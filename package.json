@@ -21,9 +21,9 @@
     "json-server-reset": "1.6.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.40.0",
+    "@playwright/test": "^1.57.0",
     "@types/node": "^20.8.10",
-    "cypress": "^13.6.0",
+    "cypress": "^15.7.1",
     "cypress-map": "^1.55.2",
     "prettier": "^3.0.3",
     "start-server-and-test": "^2.0.2"

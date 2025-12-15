@@ -2,8 +2,6 @@
 import { test, expect } from '@playwright/test'
 import todos from '../fixtures/3-todos.json'
 
-expect(todos.length, 'have a few todos').toBeGreaterThan(2)
-
 test.describe('TodoMVC', () => {
   test.beforeEach(async ({ request }) => {
     await request.post('/reset', { data: { todos } })
@@ -12,10 +10,16 @@ test.describe('TodoMVC', () => {
   test('delete a todo', async ({ page }) => {
     const items = page.locator('.todo-list li')
     await page.goto('/')
-    await expect(items).toHaveCount(todos.length)
+    // for clarity, use explicit list of strings
+    await expect(items).toHaveText([
+      'Write code',
+      'Write tests',
+      'Make tests pass',
+    ])
 
     await items.first().hover()
     await items.first().locator('.destroy').click()
-    await expect(items).toHaveCount(todos.length - 1)
+    // the first item is gone
+    await expect(items).toHaveText(['Write tests', 'Make tests pass'])
   })
 })

@@ -3,9 +3,7 @@
 
 import todos from '../../fixtures/3-todos.json'
 import 'cypress-real-events'
-
-// confirm we have a few todos imported
-expect(todos, 'have a few todos').to.have.length.greaterThan(2)
+import 'cypress-map'
 
 describe('TodoMVC', () => {
   beforeEach(() => {
@@ -16,11 +14,11 @@ describe('TodoMVC', () => {
     const items = '.todo-list li'
     cy.visit('/')
     cy.get(items)
-      .should('have.length', todos.length)
+      .should('read', ['Write code', 'Write tests', 'Make tests pass'])
       .first()
       .realHover()
       .find('.destroy')
       .click()
-    cy.get(items).should('have.length', todos.length - 1)
+    cy.get(items).should('read', ['Write tests', 'Make tests pass'])
   })
 })

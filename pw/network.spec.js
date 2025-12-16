@@ -1,9 +1,13 @@
 // @ts-check
-const { test } = require('@playwright/test')
+const { test, expect } = require('@playwright/test')
 
-test('GET /todos call', async ({ page }) => {
+import todos from '../fixtures/3-todos.json'
+
+test('GET /todos call', async ({ page, request }) => {
+  await request.post('/reset', { data: { todos } })
   const getTodosPromise = page.waitForResponse('**/todos')
   await page.goto('/')
-  // confirm the network call was made
-  await getTodosPromise
+  const response = await getTodosPromise
+  const items = await response.json()
+  expect(items, 'same items').toEqual(todos)
 })

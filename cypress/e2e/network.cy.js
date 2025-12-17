@@ -2,10 +2,11 @@
 /// <reference types="cypress" />
 
 import todos from '../../fixtures/3-todos.json'
+import 'cypress-map'
 
-it('GET /todos call', () => {
-  cy.request('POST', '/reset', { todos })
-  cy.intercept('GET', '/todos').as('getTodos')
+it('stub GET /todos call', () => {
+  cy.intercept('GET', '/todos', { body: todos }).as('getTodos')
   cy.visit('/')
-  cy.wait('@getTodos').its('response.body').should('deep.equal', todos)
+  cy.wait('@getTodos')
+  cy.get('.todo-list li label').should('read', Cypress._.map(todos, 'title'))
 })

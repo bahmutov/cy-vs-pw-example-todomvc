@@ -3,11 +3,20 @@ const { test, expect } = require('@playwright/test')
 
 import todos from '../fixtures/3-todos.json'
 
-test('GET /todos call', async ({ page, request }) => {
-  await request.post('/reset', { data: { todos } })
+test('stub GET /todos call', async ({ page }) => {
+  await page.route('/todos', (route) =>
+    route.fulfill({
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(todos),
+    }),
+  )
+
   const getTodosPromise = page.waitForResponse('**/todos')
   await page.goto('/')
-  const response = await getTodosPromise
-  const items = await response.json()
-  expect(items, 'same items').toEqual(todos)
+  // confirm the application made the GET /todos request
+  await getTodosPromise
+  // confirm the application is showing the stubbed todos
+  await expect(page.locator('.todo-list li')).toHaveText(
+    todos.map((t) => t.title),
+  )
 })

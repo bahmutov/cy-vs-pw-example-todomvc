@@ -3,37 +3,16 @@ const { test, expect } = require('@playwright/test')
 
 import todos from '../fixtures/3-todos.json'
 
-test('stub GET and POST /todos calls', async ({ page }) => {
-  await page.route('/todos', (route) => {
-    if (route.request().method() === 'POST') {
-      // send the request body back in the response
-      const postData = route.request().postDataJSON()
-      route.fulfill({
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData),
-      })
-      return
-    }
-
-    route.fulfill({
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(todos),
-    })
-  })
-
-  // now we need to separate waiting for GET vs POST /todos calls
-  const getTodosPromise = page.waitForResponse(
-    (response) =>
-      response.url().endsWith('/todos') &&
-      response.request().method() === 'GET',
-  )
+test('sends the new todo object', async ({ request, page }) => {
+  await request.post('/reset', { data: { todos } })
   await page.goto('/')
-  await getTodosPromise
-  await expect(page.locator('.todo-list li')).toHaveCount(todos.length)
+  await page.waitForSelector('.loaded')
 
   // enter a new todo item
-  // and confirm the POST /todos request body
-  // is sent correctly
+  // and confirm the POST /todos request body has:
+  // - a 'title' property with the correct value
+  // - a 'completed' property set to false
+  // - an 'id' string property
   const newTodo = 'walk the dog'
   const postTodoPromise = page.waitForResponse(
     (response) =>
@@ -42,8 +21,9 @@ test('stub GET and POST /todos calls', async ({ page }) => {
   )
   await page.fill('.new-todo', newTodo)
   await page.keyboard.press('Enter')
-  await expect(page.locator('.todo-list li')).toHaveCount(todos.length + 1)
   const postResponse = await postTodoPromise
   const postResponseBody = await postResponse.json()
-  expect(postResponseBody.title).toBe(newTodo)
+  expect(postResponseBody).toMatchObject({ title: newTodo, completed: false })
+  expect(postResponseBody).toHaveProperty('id')
+  expect(typeof postResponseBody.id).toBe('string')
 })

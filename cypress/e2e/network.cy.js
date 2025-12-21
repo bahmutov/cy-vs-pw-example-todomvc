@@ -7,6 +7,7 @@ it('sends the new todo object', () => {
   cy.request('POST', '/reset', { todos })
   cy.intercept('POST', '/todos').as('postTodos')
   cy.visit('/')
+
   cy.get('.loaded')
 
   // enter a new todo item

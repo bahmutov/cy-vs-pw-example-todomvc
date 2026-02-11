@@ -161,7 +161,7 @@ function appStart() {
             .catch((error) => {
               console.error('failed to update todo', error)
             })
-        }, 70 * Math.random())
+        }, 4000 * Math.random())
         // console.log('updated todo', todo.id, 'on the server')
         // Trigger reactivity by setting todos again
         commit('SET_TODOS', [...state.todos])

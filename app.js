@@ -148,6 +148,26 @@ function appStart() {
           commit('REMOVE_TODO', todo)
         })
       },
+      toggleTodo({ commit, state }, todo) {
+        // Toggle the completed field
+        todo.completed = !todo.completed
+
+        // Send UPDATE request to backend
+        axios
+          .patch(`/todos/${todo.id}`, {
+            completed: todo.completed,
+          })
+          .then(() => {
+            console.log('updated todo', todo.id, 'on the server')
+            // Trigger reactivity by setting todos again
+            commit('SET_TODOS', [...state.todos])
+          })
+          .catch((error) => {
+            console.error('failed to update todo', error)
+            // Revert on error
+            todo.completed = !todo.completed
+          })
+      },
       async removeCompleted({ commit, state }) {
         const remainingTodos = state.todos.filter((todo) => !todo.completed)
         const completedTodos = state.todos.filter((todo) => todo.completed)
@@ -264,6 +284,10 @@ function appStart() {
 
       removeTodo(todo) {
         this.$store.dispatch('removeTodo', todo)
+      },
+
+      toggleTodo(todo) {
+        this.$store.dispatch('toggleTodo', todo)
       },
 
       // utility method for create a todo with title and completed state

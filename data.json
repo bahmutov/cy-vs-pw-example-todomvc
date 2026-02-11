@@ -1,54 +1,9 @@
 {
   "todos": [
     {
-      "id": 549801,
+      "id": 802426,
       "title": "Random todo 1",
-      "completed": false
-    },
-    {
-      "id": 392151,
-      "title": "Random todo 2",
-      "completed": false
-    },
-    {
-      "id": 666354,
-      "title": "Random todo 3",
-      "completed": false
-    },
-    {
-      "id": 229490,
-      "title": "Random todo 4",
-      "completed": false
-    },
-    {
-      "id": 287968,
-      "title": "Random todo 5",
-      "completed": false
-    },
-    {
-      "id": 255979,
-      "title": "Random todo 6",
-      "completed": false
-    },
-    {
-      "id": 454747,
-      "title": "Random todo 7",
-      "completed": false
-    },
-    {
-      "id": 386712,
-      "title": "Random todo 8",
-      "completed": false
-    },
-    {
-      "id": 863320,
-      "title": "Random todo 9",
-      "completed": false
-    },
-    {
-      "id": 804562,
-      "title": "Random todo 10",
-      "completed": false
+      "completed": true
     }
   ]
 }

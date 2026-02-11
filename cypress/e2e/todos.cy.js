@@ -23,5 +23,10 @@ describe('Todos', { viewportHeight: 1000 }, () => {
     cy.get(todos).should('have.length', this.n)
     // complete all todos by clicking the checkboxes
     cy.get('.todo-list li .toggle').click({ multiple: true })
+    // confirm all todos are marked as completed
+    // after reloading the page
+    cy.reload()
+    cy.get('.loaded')
+    cy.get('[data-cy="remaining-count"]').should('have.text', '0')
   })
 })

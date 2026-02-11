@@ -152,21 +152,19 @@ function appStart() {
         // Toggle the completed field
         todo.completed = !todo.completed
 
-        // Send UPDATE request to backend
-        axios
-          .patch(`/todos/${todo.id}`, {
-            completed: todo.completed,
-          })
-          .then(() => {
-            console.log('updated todo', todo.id, 'on the server')
-            // Trigger reactivity by setting todos again
-            commit('SET_TODOS', [...state.todos])
-          })
-          .catch((error) => {
-            console.error('failed to update todo', error)
-            // Revert on error
-            todo.completed = !todo.completed
-          })
+        // Send UPDATE request to backend after a random small delay
+        setTimeout(() => {
+          axios
+            .patch(`/todos/${todo.id}`, {
+              completed: todo.completed,
+            })
+            .catch((error) => {
+              console.error('failed to update todo', error)
+            })
+        }, 70 * Math.random())
+        // console.log('updated todo', todo.id, 'on the server')
+        // Trigger reactivity by setting todos again
+        commit('SET_TODOS', [...state.todos])
       },
       async removeCompleted({ commit, state }) {
         const remainingTodos = state.todos.filter((todo) => !todo.completed)

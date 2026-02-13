@@ -93,7 +93,10 @@ describe('Todos', { viewportHeight: 1000 }, () => {
     // confirm the backend has only completed todos
     recurse(
       () => cy.request('/todos').its('body'),
-      (todos) => todos.every((todo) => todo.completed),
+      (todos) =>
+        todos.every(
+          (/** @type {{ completed: boolean }} */ todo) => todo.completed,
+        ),
       {
         log: 'All todos are completed on the server',
         timeout: 30_000,
@@ -115,7 +118,7 @@ describe('Todos', { viewportHeight: 1000 }, () => {
 
     cy.intercept('PATCH', '/todos/*').as('updateTodo')
     cy.get('.todo-list li .toggle')
-      .mapChain(($el) => {
+      .mapChain((/** @type {jQuery<HTMLElement>} */ $el) => {
         cy.wrap($el, { log: false }).check()
         // from each network call, grab the id of the updated todo
         cy.wait('@updateTodo').its('response.body.id')
